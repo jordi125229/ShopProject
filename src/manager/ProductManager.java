@@ -6,12 +6,18 @@ import product.Product;
 import product.Smartfon;
 import repository.ProductRepository;
 
-
 public class ProductManager {
     private final ProductRepository productRepository;
 
     public ProductManager(ProductRepository productRepository) {
         this.productRepository = productRepository;
+    }
+
+    public void updateProduct(String id, String name, Money price, int quantity) {
+        Product product = productRepository.findProductById(id).orElseThrow(() -> new IllegalArgumentException("Product not found"));
+        product.setName(name);
+        product.setPrice(price);
+        product.setQuantity(quantity);
     }
 
     public Computer computerCreator(String id, String name, Money price, int quantity) {

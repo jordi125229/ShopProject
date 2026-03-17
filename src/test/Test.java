@@ -3,8 +3,11 @@ package test;
 import manager.ProductManager;
 import money.Money;
 import product.Computer;
+import product.Product;
 import product.Smartfon;
 import repository.ProductRepository;
+
+import java.util.Optional;
 
 public class Test {
     public static void main(String[] args) {
@@ -16,6 +19,7 @@ public class Test {
         computerConfigurationTest(productManager);
         testOfAddingProductsToMap(repository);
         testOfRemovingFromMap(productManager, repository);
+        testOfProductUpdate(productManager, repository);
     }
 
     private static void createSmartfonTest(ProductManager productManager) {
@@ -49,5 +53,12 @@ public class Test {
         productManager.productDeleting("014");
         String string = repository.findAll().toString();
         System.out.println(string + "\n");
+    }
+
+    private static void testOfProductUpdate(ProductManager productManager, ProductRepository repository) {
+        System.out.println("Test 6: Product update");
+        productManager.updateProduct("005", "sony", Money.of("3200"), 5);
+        Optional<Product> productById = repository.findProductById("005");
+        System.out.println(productById.get() + "\n");
     }
 }

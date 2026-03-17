@@ -1,5 +1,6 @@
 package repository;
 
+import money.Money;
 import product.Product;
 
 import java.util.*;
