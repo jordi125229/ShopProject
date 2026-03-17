@@ -1,10 +1,12 @@
 package test;
 
+import manager.CartManager;
 import manager.ProductManager;
 import money.Money;
 import product.Computer;
 import product.Product;
 import product.Smartfon;
+import repository.CartRepository;
 import repository.ProductRepository;
 
 import java.util.Optional;
@@ -13,6 +15,8 @@ public class Test {
     public static void main(String[] args) {
         ProductRepository repository = new ProductRepository();
         ProductManager productManager = new ProductManager(repository);
+        CartRepository cart = new CartRepository();
+        CartManager cartManager = new CartManager(cart, repository);
 
         createComputerTest(productManager);
         createSmartfonTest(productManager);
@@ -20,23 +24,41 @@ public class Test {
         testOfAddingProductsToMap(repository);
         testOfRemovingFromMap(productManager, repository);
         testOfProductUpdate(productManager, repository);
+        testOfCartWorking(repository, cartManager, cart);
+        cartClearingTest(cart);
     }
+
+    private static void testOfCartWorking(ProductRepository repository, CartManager cartManager, CartRepository cart) {
+        System.out.println("Test 7: cart creation");
+        String string = repository.findAll().toString();
+        System.out.println(string);
+        cartManager.addProductToCart("005");
+        cart.findAll().forEach(System.out::println);
+        System.out.println();
+    }
+
+    private static void cartClearingTest(CartRepository cart) {
+        System.out.println("Test 8: cart's clearing");
+        cart.clearing();
+        cart.findAll().forEach(System.out::println);
+    }
+
 
     private static void createSmartfonTest(ProductManager productManager) {
         System.out.println("Test2: creating smartfon");
-        Smartfon smartfon1 = productManager.smartfonCreator("005", "samsung", Money.of("4600"), 10);
+        Smartfon smartfon1 = productManager.createSmartfon("005", "samsung", Money.of("4600"), 10);
         System.out.println(smartfon1 + "\n");
     }
 
     private static void createComputerTest(ProductManager productManager) {
         System.out.println("Test1: creating computer");
-        Computer computer1 = productManager.computerCreator("014", "HP", Money.of("2800"), 4);
+        Computer computer1 = productManager.createComputer("014", "HP", Money.of("2800"), 4);
         System.out.println(computer1 + "\n");
     }
 
     private static void computerConfigurationTest(ProductManager productManager) {
         System.out.println("Test3: configuration of computer");
-        Computer computer2 = productManager.computerCreator("014", "HP", Money.of("2800"), 4);
+        Computer computer2 = productManager.createComputer("014", "HP", Money.of("2800"), 4);
         System.out.println(computer2);
         computer2.configuration("AMD", 16);
         System.out.println(computer2 + "\n");
