@@ -1,46 +1,37 @@
 package test;
 
+import client.Client;
 import manager.CartManager;
+import manager.OrderManager;
 import manager.ProductManager;
 import money.Money;
+import order.Order;
 import product.Computer;
 import product.Product;
 import product.Smartfon;
-import repository.CartRepository;
+import repository.Cart;
 import repository.ProductRepository;
 
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 public class Test {
     public static void main(String[] args) {
         ProductRepository repository = new ProductRepository();
         ProductManager productManager = new ProductManager(repository);
-        CartRepository cart = new CartRepository();
+        Cart cart = new Cart();
         CartManager cartManager = new CartManager(cart, repository);
+        OrderManager orderManager = new OrderManager();
 
         createComputerTest(productManager);
         createSmartfonTest(productManager);
         computerConfigurationTest(productManager);
         testOfAddingProductsToMap(repository);
-        testOfRemovingFromMap(productManager, repository);
+//        testOfRemovingFromMap(productManager, repository);
         testOfProductUpdate(productManager, repository);
         testOfCartWorking(repository, cartManager, cart);
         cartClearingTest(cart);
-    }
-
-    private static void testOfCartWorking(ProductRepository repository, CartManager cartManager, CartRepository cart) {
-        System.out.println("Test 7: cart creation");
-        String string = repository.findAll().toString();
-        System.out.println(string);
-        cartManager.addProductToCart("005");
-        cart.findAll().forEach(System.out::println);
-        System.out.println();
-    }
-
-    private static void cartClearingTest(CartRepository cart) {
-        System.out.println("Test 8: cart's clearing");
-        cart.clearing();
-        cart.findAll().forEach(System.out::println);
+        orderCreateTest(cartManager, orderManager, cart);
     }
 
 
@@ -82,5 +73,28 @@ public class Test {
         productManager.updateProduct("005", "sony", Money.of("3200"), 5);
         Optional<Product> productById = repository.findProductById("005");
         System.out.println(productById.get() + "\n");
+    }
+
+    private static void testOfCartWorking(ProductRepository repository, CartManager cartManager, Cart cart) {
+        System.out.println("Test 7: cart creation");
+        String string = repository.findAll().toString();
+        System.out.println(string);
+        cartManager.addProductToCart("005");
+        cart.findAll().forEach(System.out::println);
+        System.out.println();
+    }
+
+    private static void cartClearingTest(Cart cart) {
+        System.out.println("Test 8: cart's clearing");
+        cart.clearing();
+        cart.findAll().forEach(System.out::println);
+    }
+
+    private static void orderCreateTest(CartManager cartManager, OrderManager orderManager, Cart cart) {
+        System.out.println("Test 9: Ordering");
+        cartManager.addProductToCart("005");
+        cartManager.addProductToCart("014");
+        Order order = orderManager.order(cart, new Client("Piotr", "Nowak", "010311041"), LocalDateTime.now(), LocalDateTime.now());
+        System.out.println(order);
     }
 }

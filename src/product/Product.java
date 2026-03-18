@@ -15,6 +15,14 @@ public class Product {
         this.quantity = quantity;
     }
 
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public Money getPrice() {
+        return price;
+    }
+
     public String getId() {
         return id;
     }

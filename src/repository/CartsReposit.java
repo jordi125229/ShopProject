@@ -1,5 +1,6 @@
 package repository;
 
+import money.Money;
 import product.Product;
 
 import java.util.List;
@@ -10,7 +11,7 @@ public interface CartsReposit {
 
     List<Product> findAll();
 
-    void order(Product product);
-
     void clearing();
+
+    Money calculateTotalPrice();
 }
