@@ -23,8 +23,8 @@ public class Money {
         return new Money(this.amount.subtract(other.amount));
     }
 
-    public Money multiply(BigDecimal other) {
-        return new Money(this.amount.multiply(other));
+    public Money multiply(int quantity) {
+        return new Money(this.amount.multiply(BigDecimal.valueOf(quantity)));
     }
 
     public Money divide(BigDecimal other) {

@@ -11,7 +11,6 @@ public class Order {
     private Cart cart;
     private Money totalPrice;
     private LocalDateTime start;
-    private LocalDateTime end;
     private String id;
 
     public LocalDateTime getStart() {
@@ -20,14 +19,6 @@ public class Order {
 
     public void setStart(LocalDateTime start) {
         this.start = start;
-    }
-
-    public LocalDateTime getEnd() {
-        return end;
-    }
-
-    public void setEnd(LocalDateTime end) {
-        this.end = end;
     }
 
     public String getId() {
@@ -64,16 +55,12 @@ public class Order {
 
     @Override
     public String toString() {
-        return "Order{" +
-                "client=" + client +
-                ", cart=" + cart +
-                ", totalPrice=" + totalPrice +
-                ", start=" + start +
-                ", end=" + end +
-                ", id='" + id + '\'' +
+        return "Order: " + "client: " + client +
+                ", " + cart +
+                ", totalPrice " + totalPrice +
+                ", start " + start +
+                ", end " +
+                ", id " + id + '\'' +
                 '}';
     }
 }
-
-/*Obsługa Zamówień
-Task 5: Stworzenie klasy Order reprezentującej zamówienie z informacjami o kliencie, produktach i sumie zamówienia.*/

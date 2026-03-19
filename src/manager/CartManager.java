@@ -1,5 +1,6 @@
 package manager;
 
+import exceptions.NoProductException;
 import product.Product;
 import repository.Cart;
 import repository.ProductRepository;
@@ -13,8 +14,13 @@ public class CartManager {
         this.productRepository = productRepository;
     }
 
-    public void addProductToCart(String id) {
+    public void addProductToCart(String id, int quantity) {
         Product product = productRepository.findProductById(id).orElseThrow(() -> new IllegalArgumentException("Product wasn't found!"));
-        cartRepository.addProduct(product);
+        if (product.getQuantity() < quantity) {
+            throw new NoProductException("No enough product in the warehouse!");
+        }
+        product.setQuantity(product.getQuantity() - quantity);
+        Product productToCart = new Product(product.getId(), product.getName(), product.getPrice(), quantity);
+        cartRepository.addProduct(productToCart);
     }
 }

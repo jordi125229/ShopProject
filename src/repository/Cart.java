@@ -40,7 +40,7 @@ public class Cart implements CartsReposit {
     public Money calculateTotalPrice() {
         Money sum = new Money(BigDecimal.ZERO);
         for (Product product : productsBucket) {
-            sum = sum.add(product.getPrice());
+            sum = sum.add(product.getPrice().multiply(product.getQuantity()));
         }
         return sum;
     }

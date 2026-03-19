@@ -31,7 +31,7 @@ public class Test {
         testOfProductUpdate(productManager, repository);
         testOfCartWorking(repository, cartManager, cart);
         cartClearingTest(cart);
-        orderCreateTest(cartManager, orderManager, cart);
+        orderCreateTest(cartManager, orderManager, cart, repository);
     }
 
 
@@ -43,13 +43,13 @@ public class Test {
 
     private static void createComputerTest(ProductManager productManager) {
         System.out.println("Test1: creating computer");
-        Computer computer1 = productManager.createComputer("014", "HP", Money.of("2800"), 4);
+        Computer computer1 = productManager.createComputer("014", "HP", Money.of("2800"), 5);
         System.out.println(computer1 + "\n");
     }
 
     private static void computerConfigurationTest(ProductManager productManager) {
         System.out.println("Test3: configuration of computer");
-        Computer computer2 = productManager.createComputer("014", "HP", Money.of("2800"), 4);
+        Computer computer2 = productManager.createComputer("014", "HP", Money.of("2800"), 5);
         System.out.println(computer2);
         computer2.configuration("AMD", 16);
         System.out.println(computer2 + "\n");
@@ -70,7 +70,7 @@ public class Test {
 
     private static void testOfProductUpdate(ProductManager productManager, ProductRepository repository) {
         System.out.println("Test 6: Product update");
-        productManager.updateProduct("005", "sony", Money.of("3200"), 5);
+        productManager.updateProduct("005", "sony", Money.of("3200"), 10);
         Optional<Product> productById = repository.findProductById("005");
         System.out.println(productById.get() + "\n");
     }
@@ -79,7 +79,7 @@ public class Test {
         System.out.println("Test 7: cart creation");
         String string = repository.findAll().toString();
         System.out.println(string);
-        cartManager.addProductToCart("005");
+        cartManager.addProductToCart("005", 1);
         cart.findAll().forEach(System.out::println);
         System.out.println();
     }
@@ -88,13 +88,16 @@ public class Test {
         System.out.println("Test 8: cart's clearing");
         cart.clearing();
         cart.findAll().forEach(System.out::println);
+        System.out.println();
     }
 
-    private static void orderCreateTest(CartManager cartManager, OrderManager orderManager, Cart cart) {
+    private static void orderCreateTest(CartManager cartManager, OrderManager orderManager, Cart cart, ProductRepository repository) {
         System.out.println("Test 9: Ordering");
-        cartManager.addProductToCart("005");
-        cartManager.addProductToCart("014");
-        Order order = orderManager.order(cart, new Client("Piotr", "Nowak", "010311041"), LocalDateTime.now(), LocalDateTime.now());
+        cartManager.addProductToCart("005", 2);
+        cartManager.addProductToCart("014", 5);
+        Order order = orderManager.order(cart, new Client("Piotr", "Nowak", "010311041"), LocalDateTime.now());
         System.out.println(order);
+        String string = repository.findAll().toString();
+        System.out.println("Warehouse after ordering: " + "\n" + string + "\n");
     }
 }
