@@ -2,16 +2,20 @@ package test;
 
 import client.Client;
 import manager.CartManager;
+import manager.InvoiceManager;
 import manager.OrderManager;
 import manager.ProductManager;
 import money.Money;
 import order.Order;
+import payment.Invoice;
 import product.Computer;
 import product.Product;
 import repository.Cart;
+import repository.OrderRepository;
 import repository.ProductRepository;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -21,18 +25,26 @@ public class Test2 {
         ProductManager productManager = new ProductManager(repository);
         Cart cart = new Cart();
         CartManager cartManager = new CartManager(cart, repository);
-        OrderManager orderManager = new OrderManager();
+        InvoiceManager invoiceManager = new InvoiceManager();
+        OrderRepository orderRepository = new OrderRepository();
+        OrderManager orderManager = new OrderManager(orderRepository);
         Computer lenovo = createAndConfigureComputer(productManager);
         createSmartfon(productManager, lenovo);
         Map<String, Product> all = getAndPrintAllProductFromMagazine(repository);
         addProductFromMagazineToCart(cartManager, all, cart);
-        createOrder(orderManager, cart);
+        createOrderAndInvoice(orderManager, cart, invoiceManager);
+
+        List<Order> allOrders = orderRepository.findAll();
+        System.out.println(allOrders);
+
     }
 
-    private static void createOrder(OrderManager orderManager, Cart cart) {
+    private static void createOrderAndInvoice(OrderManager orderManager, Cart cart, InvoiceManager invoiceManager) {
         Order order = orderManager.order(cart, new Client("Piotr", "Nowak", "012310101"), LocalDateTime.now());
         System.out.println(order);
-        System.out.println("Cart after ordering (empty): " + cart);
+//        System.out.println("Cart after ordering (empty): " + cart); -> to be checked, I want to clear the cart after ordering creation
+        Invoice invoice = invoiceManager.toInvoice(order);
+        System.out.println(invoice);
     }
 
     private static void addProductFromMagazineToCart(CartManager cartManager, Map<String, Product> all, Cart cart) {

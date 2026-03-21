@@ -10,9 +10,11 @@ import product.Computer;
 import product.Product;
 import product.Smartfon;
 import repository.Cart;
+import repository.OrderRepository;
 import repository.ProductRepository;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 public class Test {
@@ -21,8 +23,8 @@ public class Test {
         ProductManager productManager = new ProductManager(repository);
         Cart cart = new Cart();
         CartManager cartManager = new CartManager(cart, repository);
-        OrderManager orderManager = new OrderManager();
-
+        OrderRepository orderRepository = new OrderRepository();
+        OrderManager orderManager = new OrderManager(orderRepository);
         createComputerTest(productManager);
         createSmartfonTest(productManager);
         computerConfigurationTest(productManager);
@@ -32,8 +34,8 @@ public class Test {
         testOfCartWorking(repository, cartManager, cart);
         cartClearingTest(cart);
         orderCreateTest(cartManager, orderManager, cart, repository);
+        printAllOrdersTest(orderRepository);
     }
-
 
     private static void createSmartfonTest(ProductManager productManager) {
         System.out.println("Test2: creating smartfon");
@@ -99,5 +101,11 @@ public class Test {
         System.out.println(order);
         String string = repository.findAll().toString();
         System.out.println("Warehouse after ordering: " + "\n" + string + "\n");
+    }
+
+    private static void printAllOrdersTest(OrderRepository orderRepository) {
+        System.out.println("Test 10: Orders printing");
+        List<Order> allOrders = orderRepository.findAll();
+        System.out.println(allOrders);
     }
 }
