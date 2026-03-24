@@ -47,7 +47,7 @@ public class Cart implements CartsReposit {
 
     @Override
     public String toString() {
-        return "Cart{" +
+        return "Cart: " +
                 "productsBucket=" + productsBucket;
     }
 }
