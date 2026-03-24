@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 public class OrderRepository implements OrderReposit {
-    List<Order> orders;
+    private List<Order> orders;
 
     public OrderRepository() {
         this.orders = new ArrayList<>();

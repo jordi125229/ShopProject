@@ -18,7 +18,7 @@ public class InvoiceManager {
         invoice.setIssueDate(LocalDateTime.now());
         invoice.setClient(order.getClient());
         invoice.setTotal(order.getTotalPrice());
-        invoice.setItemDescription(order.getCart().toString());
+        invoice.setItemDescription(order.getCart().toString()); // do przekminienia bo w momencie tworzenia zamowienia usuwam koszyk wiec nie mam z czego wziac opisu
         return invoice;
     }
 

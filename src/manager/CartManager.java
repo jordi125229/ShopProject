@@ -16,7 +16,7 @@ public class CartManager {
         this.productRepository = productRepository;
     }
 
-    public void printCarts(){
+    public void printCarts() {
         List<Product> all = cartRepository.findAll();
         System.out.println(all);
     }

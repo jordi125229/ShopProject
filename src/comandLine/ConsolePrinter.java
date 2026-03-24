@@ -1,5 +1,6 @@
 package comandLine;
 
+import payment.Invoice;
 import product.Product;
 
 import java.util.List;
@@ -12,5 +13,9 @@ public class ConsolePrinter {
 
     public void printProducts(Map<String, Product> productsMap) {
         printLine(productsMap.toString());
+    }
+
+    public void printInvoices(List<Invoice> invoices) {
+        printLine(invoices.toString());
     }
 }

@@ -10,7 +10,9 @@ public enum Option {
     INITIALIZE_CART(7, "Initialize cart"),
     PRINT_CARTS(8, "Show cart"),
     ADD_ORDER(9, "Create order"),
-    EXIT(10, "Closing app");
+    CREATE_INVOICE(10, "Invoice issuing"),
+    PRINT_INVOICES(11, "View all invoices"),
+    EXIT(12, "Closing app");
 
     private final int optionNumber;
     private final String description;

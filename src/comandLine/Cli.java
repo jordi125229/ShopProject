@@ -3,13 +3,16 @@ package comandLine;
 import client.Client;
 import exceptions.NoProductException;
 import manager.CartManager;
+import manager.InvoiceManager;
 import manager.OrderManager;
 import order.Order;
+import payment.Invoice;
 import product.Computer;
 import product.Electronics;
 import product.Product;
 import product.Smartfon;
 import repository.Cart;
+import repository.InvoiceRepository;
 import repository.OrderRepository;
 import repository.ProductRepository;
 
@@ -24,6 +27,8 @@ public class Cli {
     private CartManager cartManager;
     private OrderRepository orderRepository;
     private OrderManager orderManager;
+    private InvoiceManager invoiceManager;
+    private InvoiceRepository invoiceRepository;
 
     public Cli() {
         this.dataReader = new DataReader();
@@ -33,6 +38,8 @@ public class Cli {
         this.cartManager = new CartManager(cart, productRepository);
         this.orderRepository = new OrderRepository();
         this.orderManager = new OrderManager(orderRepository);
+        this.invoiceManager = new InvoiceManager();
+        this.invoiceRepository = new InvoiceRepository();
     }
 
     public void controlLoop() {
@@ -52,11 +59,13 @@ public class Cli {
                     case INITIALIZE_CART -> addProductToCart();
                     case PRINT_CARTS -> cartPrinter();
                     case ADD_ORDER -> addOrder();
+                    case CREATE_INVOICE -> createInvoice();
+                    case PRINT_INVOICES -> invoicePrinter();
                 }
             } catch (IllegalArgumentException e) {
-                System.out.println(e.getMessage());
+                consolePrinter.printLine(e.getMessage());
             } catch (InputMismatchException e) {
-                System.out.println("Wrong option!");
+                consolePrinter.printLine("Wrong option!");
             }
         } while (option != Option.EXIT);
     }
@@ -64,63 +73,67 @@ public class Cli {
     public void addSmartphone() {
         Smartfon smartfon = dataReader.readAndCreateSmartphone();
         productRepository.add(smartfon);
-        System.out.println("Smartphone created!");
+        consolePrinter.printLine("Smartphone created!");
     }
 
     public void addComputer() {
         Computer computer = dataReader.readAndCreateComputer();
         productRepository.add(computer);
-        System.out.println("Computer created!");
+        consolePrinter.printLine("Computer created!");
     }
 
     public void addElectronic() {
         Electronics electronics = dataReader.readAndCreateElectronic();
         productRepository.add(electronics);
-        System.out.println("Electronic device created!");
+        consolePrinter.printLine("Electronic device created!");
     }
 
     public void smartphoneConfiguration() { // do dopytania, bo srednio to wyglada
-        System.out.println("Insert product's id to configurate.");
-        String id = dataReader.getString();
-        Product product = productRepository.findProductById(id).get();
-        Smartfon smartfon = (Smartfon) product; // tu nie do konca podoba mi sie to rozwiazanie
-        System.out.println("Insert smartphone's color: ");
-        String color = dataReader.getString();
-        System.out.println("Insert battery capacity: ");
-        int batteryCapacity = dataReader.getAndReturnInt();
-        System.out.println("Insert additional accessory: ");
-        String accessoriesInput = dataReader.getString();
-        Set<String> additionalAccessory = Set.of(accessoriesInput);
-        smartfon.configuration(color, batteryCapacity, additionalAccessory);
-    }
-
-    public void computerConfiguration() {
         try {
             System.out.println("Insert product's id to configurate.");
             String id = dataReader.getString();
             Product product = getProductById(id);
+            Smartfon smartfon = (Smartfon) product; // tu nie do konca podoba mi sie to rozwiazanie
+            System.out.println("Insert smartphone's color: ");
+            String color = dataReader.getString();
+            System.out.println("Insert battery capacity: ");
+            int batteryCapacity = dataReader.getAndReturnInt();
+            System.out.println("Insert additional accessory: ");
+            String accessoriesInput = dataReader.getString();
+            Set<String> additionalAccessory = Set.of(accessoriesInput);
+            smartfon.configuration(color, batteryCapacity, additionalAccessory);
+        } catch (NoProductException e) {
+            consolePrinter.printLine(e.getMessage());
+        }
+    }
+
+    public void computerConfiguration() {
+        try {
+            consolePrinter.printLine("Insert product's id to configurate.");
+            String id = dataReader.getString();
+            Product product = getProductById(id);
             Computer computer = (Computer) product;
-            System.out.println("Insert computer's processor: ");
+            consolePrinter.printLine("Insert computer's processor: ");
             String processor = dataReader.getString();
-            System.out.println("Insert RAM memory capacity: ");
+            consolePrinter.printLine("Insert RAM memory capacity: ");
             int ramMemory = dataReader.getAndReturnInt();
             computer.configuration(processor, ramMemory);
         } catch (NoProductException e) {
-            System.out.println(e.getMessage());
+            consolePrinter.printLine(e.getMessage());
         }
     }
 
     public void addProductToCart() {
         try {
-            System.out.println("Insert product id: ");
+            consolePrinter.printLine("Insert product id: ");
             String productId = dataReader.getString();
             Product product = getProductById(productId);
-            System.out.println("Quantity: ");
+            consolePrinter.printLine("Quantity: ");
             int quantityOfProduct = dataReader.getAndReturnInt();
             cartManager.addProductToCart(product.getId(), quantityOfProduct);
-            System.out.println(cart.findAll().toString());
+            consolePrinter.printLine(cart.findAll().toString());
         } catch (NoProductException e) {
-            System.out.println(e.getMessage());
+            consolePrinter.printLine(e.getMessage());
         }
     }
 
@@ -135,19 +148,32 @@ public class Cli {
     public void addOrder() {
         Client client = getClientByProvidingData();
         Order order = orderManager.order(cart, client, LocalDateTime.now());
-        System.out.println("Order created: " + order);
+        consolePrinter.printLine("Order created: " + order);
         cart.clearing();
     }
 
-    private Client getClientByProvidingData() {
-        System.out.println("Insert client's name: ");
+    public Client getClientByProvidingData() {
+        consolePrinter.printLine("Insert client's name: ");
         String clientName = dataReader.getString();
-        System.out.println("Insert client's lastname: ");
+        consolePrinter.printLine("Insert client's lastname: ");
         String lastName = dataReader.getString();
-        System.out.println("Insert client's id: ");
+        consolePrinter.printLine("Insert client's id: ");
         String id = dataReader.getString();
         Client client = new Client(clientName, lastName, id);
         return client;
+    }
+
+    public Invoice createInvoice() {
+        consolePrinter.printLine("Insert order's id to create invoice: ");
+        String orderId = dataReader.getString();
+        Order orderById = orderRepository.findOrderById(orderId);
+        Invoice invoice = invoiceManager.toInvoice(orderById);
+        System.out.println(invoice);
+        return invoice;
+    }
+
+    public void invoicePrinter() {
+        consolePrinter.printInvoices(invoiceRepository.findAll());
     }
 
     private Product getProductById(String id) {
