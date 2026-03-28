@@ -11,8 +11,8 @@ public class Money {
         this.amount = amount;
     }
 
-    public static Money of(String s) {
-        return new Money(new BigDecimal(s));
+    public static Money of(String amount) {
+        return new Money(new BigDecimal(amount));
     }
 
     public Money add(Money other){
@@ -25,10 +25,6 @@ public class Money {
 
     public Money multiply(int quantity) {
         return new Money(this.amount.multiply(BigDecimal.valueOf(quantity)));
-    }
-
-    public Money divide(BigDecimal other) {
-        return new Money(this.amount.divide(other, 2, RoundingMode.HALF_UP));
     }
 
     @Override

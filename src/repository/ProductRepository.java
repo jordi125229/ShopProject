@@ -1,5 +1,6 @@
 package repository;
 
+import exceptions.NoProductException;
 import money.Money;
 import product.Product;
 
@@ -25,7 +26,7 @@ public class ProductRepository implements ProductsReposit {
     @Override
     public Map<String, Product> findAll() {
         if (products.isEmpty()){
-            System.out.println("No products");
+            throw new NoProductException("No products");
         }
         return products;
     }

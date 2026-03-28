@@ -1,5 +1,6 @@
 package repository;
 
+import exceptions.NoOrderException;
 import money.Money;
 import order.Order;
 import product.Product;
@@ -30,6 +31,6 @@ public class OrderRepository implements OrderReposit {
         return orders.stream()
                 .filter(order -> order.getId().equalsIgnoreCase(id))
                 .findFirst()
-                .orElseThrow(() -> new RuntimeException("Can't find order number " + id));
+                .orElseThrow(() -> new NoOrderException("Can't find order number " + id));
     }
 }

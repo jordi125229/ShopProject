@@ -10,7 +10,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.Random;
 
 public class OrderManager {
-    private Cart cart;
     private OrderRepository orderRepository;
 
     public OrderManager(OrderRepository orderRepository) {

@@ -8,8 +8,8 @@ import repository.ProductRepository;
 import java.util.List;
 
 public class CartManager {
-    Cart cartRepository;
-    ProductRepository productRepository;
+    private Cart cartRepository;
+    private ProductRepository productRepository;
 
     public CartManager(Cart cartRepository, ProductRepository productRepository) {
         this.cartRepository = cartRepository;
@@ -27,7 +27,6 @@ public class CartManager {
             throw new NoProductException("No enough product in the warehouse!");
         }
         product.setQuantity(product.getQuantity() - quantity);
-        Product productToCart = new Product(product.getId(), product.getName(), product.getPrice(), quantity);
-        cartRepository.addProduct(productToCart);
+        cartRepository.addProduct(product);
     }
 }

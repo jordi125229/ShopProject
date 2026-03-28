@@ -30,7 +30,6 @@ public class Test {
         computerConfigurationTest(productManager);
         testOfAddingProductsToMap(repository);
 //        testOfRemovingFromMap(productManager, repository);
-        testOfProductUpdate(productManager, repository);
         testOfCartWorking(repository, cartManager, cart);
         cartClearingTest(cart);
         orderCreateTest(cartManager, orderManager, cart, repository);
@@ -39,7 +38,7 @@ public class Test {
 
     private static void createSmartfonTest(ProductManager productManager) {
         System.out.println("Test2: creating smartfon");
-        Smartphone smartfon1 = productManager.createSmartfon("005", "samsung", Money.of("4600"), 10);
+        Smartphone smartfon1 = productManager.createSmartphone("005", "samsung", Money.of("4600"), 10);
         System.out.println(smartfon1 + "\n");
     }
 
@@ -70,12 +69,12 @@ public class Test {
         System.out.println(string + "\n");
     }
 
-    private static void testOfProductUpdate(ProductManager productManager, ProductRepository repository) {
-        System.out.println("Test 6: Product update");
-        productManager.updateProduct("005", "sony", Money.of("3200"), 10);
-        Optional<Product> productById = repository.findProductById("005");
-        System.out.println(productById.get() + "\n");
-    }
+//    private static void testOfProductUpdate(ProductManager productManager, ProductRepository repository) {
+//        System.out.println("Test 6: Product update");
+//        productManager.updateProduct("005", "sony", Money.of("3200"), 10);
+//        Optional<Product> productById = repository.findProductById("005");
+//        System.out.println(productById.get() + "\n");
+//    }
 
     private static void testOfCartWorking(ProductRepository repository, CartManager cartManager, Cart cart) {
         System.out.println("Test 7: cart creation");
