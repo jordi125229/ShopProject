@@ -11,9 +11,15 @@ public class Client {
         this.id = id;
     }
 
+    public String getName() {
+        return name;
+    }
+
     @Override
     public String toString() {
-        return "name " + name + ", lastName " + lastName + '\'' +
+        return "Client{" +
+                "name='" + name + '\'' +
+                ", lastName='" + lastName + '\'' +
                 ", id='" + id + '\'' +
                 '}';
     }

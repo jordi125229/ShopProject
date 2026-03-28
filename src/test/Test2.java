@@ -15,6 +15,7 @@ import repository.OrderRepository;
 import repository.ProductRepository;
 
 import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -40,7 +41,7 @@ public class Test2 {
     }
 
     private static void createOrderAndInvoice(OrderManager orderManager, Cart cart, InvoiceManager invoiceManager) {
-        Order order = orderManager.order(cart, new Client("Piotr", "Nowak", "012310101"), LocalDateTime.now());
+        Order order = orderManager.order(cart, new Client("Piotr", "Nowak", "012310101"), ZonedDateTime.now());
         System.out.println(order);
 //        System.out.println("Cart after ordering (empty): " + cart); -> to be checked, I want to clear the cart after ordering creation
         Invoice invoice = invoiceManager.toInvoice(order);

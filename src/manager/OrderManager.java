@@ -1,11 +1,12 @@
 package manager;
 
 import client.Client;
+import exceptions.NoProductInTheCart;
 import order.Order;
 import repository.Cart;
 import repository.OrderRepository;
 
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Random;
 
@@ -17,7 +18,7 @@ public class OrderManager {
         this.orderRepository = orderRepository;
     }
 
-    public Order order(Cart cart, Client client, LocalDateTime start) {
+    public Order order(Cart cart, Client client, ZonedDateTime start) {
         Order order = new Order();
         String date = start.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
         order.setCart(cart);
@@ -27,6 +28,7 @@ public class OrderManager {
         order.setTotalPrice(cart.calculateTotalPrice());
         orderRepository.addOrder(order);
         return order;
+
     }
 
     public static int counterCreation() {

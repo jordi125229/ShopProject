@@ -16,4 +16,8 @@ public class InvoiceRepository {
     public List<Invoice> findAll() {
         return invoices;
     }
+
+    public void addInvoice(Invoice invoice) {
+        invoices.add(invoice);
+    }
 }

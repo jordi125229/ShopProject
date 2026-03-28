@@ -2,6 +2,7 @@ package comandLine;
 
 import client.Client;
 import exceptions.NoProductException;
+import exceptions.NoProductInTheCart;
 import manager.CartManager;
 import manager.InvoiceManager;
 import manager.OrderManager;
@@ -17,6 +18,7 @@ import repository.OrderRepository;
 import repository.ProductRepository;
 
 import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.*;
 
 public class Cli {
@@ -57,10 +59,11 @@ public class Cli {
                     case SMARTPHONE_CONFIGURATION -> smartphoneConfiguration();
                     case COMPUTER_CONFIGURATION -> computerConfiguration();
                     case INITIALIZE_CART -> addProductToCart();
-                    case PRINT_CARTS -> cartPrinter();
+                    case PRINT_CART -> cartPrinter();
                     case ADD_ORDER -> addOrder();
                     case CREATE_INVOICE -> createInvoice();
                     case PRINT_INVOICES -> invoicePrinter();
+                    case PRINT_ORDERS -> ordersPrinter();
                 }
             } catch (IllegalArgumentException e) {
                 consolePrinter.printLine(e.getMessage());
@@ -138,18 +141,29 @@ public class Cli {
     }
 
     public void cartPrinter() {
-        cartManager.printCarts();
+        consolePrinter.printCarts(cart.findAll());
     }
 
     public void productsPrinter() {
         consolePrinter.printProducts(productRepository.findAll());
     }
 
+    public void ordersPrinter() {
+        orderRepository.findAll();
+    }
+
     public void addOrder() {
-        Client client = getClientByProvidingData();
-        Order order = orderManager.order(cart, client, LocalDateTime.now());
-        consolePrinter.printLine("Order created: " + order);
-        cart.clearing();
+        try {
+            if (cart.findAll().isEmpty()) {
+                throw new NoProductInTheCart("Your cart is empty. Please add products to the cart!");
+            }
+            Client client = getClientByProvidingData();
+            Order order = orderManager.order(cart, client, ZonedDateTime.now());
+            consolePrinter.printLine("Order created: " + order);
+            cart.clearing();
+        } catch (NoProductInTheCart e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     public Client getClientByProvidingData() {
@@ -168,7 +182,8 @@ public class Cli {
         String orderId = dataReader.getString();
         Order orderById = orderRepository.findOrderById(orderId);
         Invoice invoice = invoiceManager.toInvoice(orderById);
-        System.out.println(invoice);
+        invoiceRepository.addInvoice(invoice);
+        System.out.println("Invoice created: " + invoice);
         return invoice;
     }
 

@@ -1,6 +1,7 @@
 package repository;
 
 import exceptions.NoProductException;
+import exceptions.NoProductInTheCart;
 import money.Money;
 import product.Product;
 
@@ -25,9 +26,6 @@ public class Cart implements CartsReposit {
 
     @Override
     public List<Product> findAll() {
-        if (productsBucket.isEmpty()) {
-            System.out.println("No products in the bucket!");
-        }
         return productsBucket;
     }
 
@@ -49,5 +47,12 @@ public class Cart implements CartsReposit {
     public String toString() {
         return "Cart: " +
                 "productsBucket=" + productsBucket;
+    }
+
+    public String serialize() {
+        return productsBucket.stream()
+                .map(p -> p.getName() + "," + p.getPrice() + "," + p.getQuantity())
+                .reduce((a, b) -> a + b)
+                .orElse("");
     }
 }

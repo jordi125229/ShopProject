@@ -1,20 +1,28 @@
 package repository;
 
+import file.FileReader;
+import file.FileWriter;
 import money.Money;
 import product.Product;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
 
 public class ProductRepository implements ProductsReposit {
     private Map<String, Product> products;
+    private FileReader fileReader;
+    private FileWriter fileWriter;
 
     public ProductRepository() {
         this.products = new HashMap<>();
+        this.fileWriter = new FileWriter();
     }
 
     @Override
     public void add(Product product) {
         products.put(product.getId(), product);
+        fileWriter.saveProductToFile(product);
     }
 
     @Override

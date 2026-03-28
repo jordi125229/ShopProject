@@ -5,19 +5,20 @@ import money.Money;
 import repository.Cart;
 
 import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 
 public class Order {
     private Client client;
     private Cart cart;
     private Money totalPrice;
-    private LocalDateTime date;
+    private ZonedDateTime date;
     private String id;
 
-    public LocalDateTime getDate() {
+    public ZonedDateTime getDate() {
         return date;
     }
 
-    public void setDate(LocalDateTime date) {
+    public void setDate(ZonedDateTime date) {
         this.date = date;
     }
 

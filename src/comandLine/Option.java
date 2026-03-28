@@ -8,11 +8,12 @@ public enum Option {
     SMARTPHONE_CONFIGURATION(5, "Smartphone's configuration"),
     COMPUTER_CONFIGURATION(6, "Computer's configuration"),
     INITIALIZE_CART(7, "Initialize cart"),
-    PRINT_CARTS(8, "Show cart"),
+    PRINT_CART(8, "Show cart"),
     ADD_ORDER(9, "Create order"),
     CREATE_INVOICE(10, "Invoice issuing"),
     PRINT_INVOICES(11, "View all invoices"),
-    EXIT(12, "Closing app");
+    PRINT_ORDERS(12, "View all orders"),
+    EXIT(13, "Closing app");
 
     private final int optionNumber;
     private final String description;

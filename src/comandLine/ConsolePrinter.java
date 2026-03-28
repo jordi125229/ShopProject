@@ -1,5 +1,6 @@
 package comandLine;
 
+import order.Order;
 import payment.Invoice;
 import product.Product;
 
@@ -17,5 +18,13 @@ public class ConsolePrinter {
 
     public void printInvoices(List<Invoice> invoices) {
         printLine(invoices.toString());
+    }
+
+//    public void printOrders(List<Order> orders) { narazie niepotrzebna metoda
+//        printLine(orders.toString());
+//    }
+
+    public void printCarts(List<Product> productsBucket) {
+        printLine(productsBucket.toString());
     }
 }
