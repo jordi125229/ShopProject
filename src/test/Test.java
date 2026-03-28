@@ -8,7 +8,7 @@ import money.Money;
 import order.Order;
 import product.Computer;
 import product.Product;
-import product.Smartfon;
+import product.Smartphone;
 import repository.Cart;
 import repository.OrderRepository;
 import repository.ProductRepository;
@@ -39,7 +39,7 @@ public class Test {
 
     private static void createSmartfonTest(ProductManager productManager) {
         System.out.println("Test2: creating smartfon");
-        Smartfon smartfon1 = productManager.createSmartfon("005", "samsung", Money.of("4600"), 10);
+        Smartphone smartfon1 = productManager.createSmartfon("005", "samsung", Money.of("4600"), 10);
         System.out.println(smartfon1 + "\n");
     }
 

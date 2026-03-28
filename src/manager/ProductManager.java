@@ -3,7 +3,7 @@ package manager;
 import money.Money;
 import product.Computer;
 import product.Product;
-import product.Smartfon;
+import product.Smartphone;
 import repository.ProductRepository;
 
 public class ProductManager {
@@ -26,8 +26,8 @@ public class ProductManager {
         return computer;
     }
 
-    public Smartfon createSmartfon(String id, String name, Money price, int quantity) {
-        Smartfon smartfon = new Smartfon(id, name, price, quantity);
+    public Smartphone createSmartfon(String id, String name, Money price, int quantity) {
+        Smartphone smartfon = new Smartphone(id, name, price, quantity);
         productRepository.add(smartfon);
         return smartfon;
     }

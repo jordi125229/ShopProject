@@ -10,7 +10,7 @@ import payment.Invoice;
 import product.Computer;
 import product.Electronics;
 import product.Product;
-import product.Smartfon;
+import product.Smartphone;
 import repository.Cart;
 import repository.InvoiceRepository;
 import repository.OrderRepository;
@@ -56,7 +56,7 @@ public class Cli {
                     case LIST_PRODUCTS -> productsPrinter();
                     case SMARTPHONE_CONFIGURATION -> smartphoneConfiguration();
                     case COMPUTER_CONFIGURATION -> computerConfiguration();
-                    case INITIALIZE_CART -> addProductToCart();
+                    case ADD_TO_CART -> addProductToCart();
                     case PRINT_CARTS -> cartPrinter();
                     case ADD_ORDER -> addOrder();
                     case CREATE_INVOICE -> createInvoice();
@@ -71,8 +71,8 @@ public class Cli {
     }
 
     public void addSmartphone() {
-        Smartfon smartfon = dataReader.readAndCreateSmartphone();
-        productRepository.add(smartfon);
+        Smartphone smartphone = dataReader.readAndCreateSmartphone();
+        productRepository.add(smartphone);
         consolePrinter.printLine("Smartphone created!");
     }
 
@@ -93,7 +93,7 @@ public class Cli {
             System.out.println("Insert product's id to configurate.");
             String id = dataReader.getString();
             Product product = getProductById(id);
-            Smartfon smartfon = (Smartfon) product; // tu nie do konca podoba mi sie to rozwiazanie
+            Smartphone smartphone = (Smartphone) product; // tu nie do konca podoba mi sie to rozwiazanie
             System.out.println("Insert smartphone's color: ");
             String color = dataReader.getString();
             System.out.println("Insert battery capacity: ");
@@ -101,7 +101,7 @@ public class Cli {
             System.out.println("Insert additional accessory: ");
             String accessoriesInput = dataReader.getString();
             Set<String> additionalAccessory = Set.of(accessoriesInput);
-            smartfon.configuration(color, batteryCapacity, additionalAccessory);
+            smartphone.configuration(color, batteryCapacity, additionalAccessory);
         } catch (NoProductException e) {
             consolePrinter.printLine(e.getMessage());
         }

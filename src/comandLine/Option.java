@@ -7,7 +7,7 @@ public enum Option {
     LIST_PRODUCTS(4, "Printing all products"),
     SMARTPHONE_CONFIGURATION(5, "Smartphone's configuration"),
     COMPUTER_CONFIGURATION(6, "Computer's configuration"),
-    INITIALIZE_CART(7, "Initialize cart"),
+    ADD_TO_CART(7, "Initialize cart"),
     PRINT_CARTS(8, "Show cart"),
     ADD_ORDER(9, "Create order"),
     CREATE_INVOICE(10, "Invoice issuing"),

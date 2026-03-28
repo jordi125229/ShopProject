@@ -3,11 +3,11 @@ package comandLine;
 import money.Money;
 import product.Computer;
 import product.Electronics;
-import product.Smartfon;
+import product.Smartphone;
 import java.util.Scanner;
 
 public class DataReader {
-    Scanner scanner = new Scanner(System.in);
+    private Scanner scanner = new Scanner(System.in);
 
     public int getAndReturnInt() {
         try {
@@ -21,7 +21,7 @@ public class DataReader {
         return scanner.nextLine();
     }
 
-    public Smartfon readAndCreateSmartphone() {
+    public Smartphone readAndCreateSmartphone() {
         System.out.println("Insert id: ");
         String smartphoneId = scanner.nextLine();
         System.out.println("Insert smartphone's name: ");
@@ -30,7 +30,7 @@ public class DataReader {
         String price = scanner.nextLine();
         System.out.println("Insert quantity: ");
         int quantity = scanner.nextInt();
-        return new Smartfon(smartphoneId, smartphoneName, Money.of(price), quantity);
+        return new Smartphone(smartphoneId, smartphoneName, Money.of(price), quantity);
     }
 
     public Computer readAndCreateComputer() {

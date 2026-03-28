@@ -26,7 +26,7 @@ public class Cart implements CartsReposit {
     @Override
     public List<Product> findAll() {
         if (productsBucket.isEmpty()) {
-            System.out.println("No products in the bucket!");
+            throw new NoProductException("No products in the bucket!");
         }
         return productsBucket;
     }

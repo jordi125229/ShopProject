@@ -12,7 +12,9 @@ public class ConsolePrinter {
     }
 
     public void printProducts(Map<String, Product> productsMap) {
-        printLine(productsMap.toString());
+        for (Product p : productsMap.values()) {
+            printLine(p.toString());
+        }
     }
 
     public void printInvoices(List<Invoice> invoices) {
