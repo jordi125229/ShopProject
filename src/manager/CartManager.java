@@ -27,6 +27,17 @@ public class CartManager {
             throw new NoProductException("No enough product in the warehouse!");
         }
         product.setQuantity(product.getQuantity() - quantity);
+        // tu jest problem z quantity nie wiem jak to rozwiazac
         cartRepository.addProduct(product);
     }
+
+//    public void addProductToCart(String id, int quantity) {
+//        Product product = productRepository.findProductById(id).orElseThrow(() -> new IllegalArgumentException("Product wasn't found!"));
+//        if (product.getQuantity() < quantity) {
+//            throw new NoProductException("No enough product in the warehouse!");
+//        }
+//        product.setQuantity(product.getQuantity() - quantity);
+//        Product productToCart = new Product(product.getId(), product.getName(), product.getPrice(), quantity);
+//        cartRepository.addProduct(productToCart);
+//    }
 }
