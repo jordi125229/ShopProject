@@ -27,8 +27,8 @@ public class CartManager {
             throw new NoProductException("No enough product in the warehouse!");
         }
         product.setQuantity(product.getQuantity() - quantity);
-        // tu jest problem z quantity nie wiem jak to rozwiazac
-        cartRepository.addProduct(product);
+
+        cartRepository.addProduct(product); //ODEJMUJAC JEDEN PRODUKT Z MAGAZYNU DODAJAC GO DO CARTY
     }
 
 //    public void addProductToCart(String id, int quantity) {

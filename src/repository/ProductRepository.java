@@ -1,12 +1,11 @@
 package repository;
 
 import exceptions.NoProductException;
-import money.Money;
 import product.Product;
 
 import java.util.*;
 
-public class ProductRepository implements ProductsReposit {
+public class ProductRepository implements ProductsRepositoryInterface {
     private Map<String, Product> products;
 
     public ProductRepository() {

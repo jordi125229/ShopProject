@@ -17,11 +17,8 @@ public class OrderManager {
     }
 
     public Order order(Cart cart, Client client, LocalDateTime start) {
-        Order order = new Order();
         String date = start.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
-        order.setCart(cart);
-        order.setClient(client);
-        order.setDate(start);
+        Order order = new Order(client, cart, start);
         order.setId("BK-<" + date + counterCreation() + ">");
         order.setTotalPrice(cart.calculateTotalPrice());
         orderRepository.addOrder(order);

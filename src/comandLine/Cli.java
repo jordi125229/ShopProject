@@ -169,6 +169,7 @@ public class Cli {
         Order orderById = orderRepository.findOrderById(orderId);
         Invoice invoice = invoiceManager.toInvoice(orderById);
         System.out.println(invoice);
+        invoiceRepository.addInvoice(invoice);
         return invoice;
     }
 

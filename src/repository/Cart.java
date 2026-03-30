@@ -8,7 +8,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Cart implements CartsReposit {
+public class Cart implements CartsRepositoryInterface {
     private List<Product> productsBucket;
 
     public Cart() {

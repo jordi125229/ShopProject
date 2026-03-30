@@ -1,13 +1,10 @@
 package repository;
 
-import money.Money;
 import order.Order;
-import product.Product;
 
 import java.util.List;
-import java.util.Optional;
 
-public interface OrderReposit {
+public interface IOrderRepository {
     void addOrder(Order order);
 
     List<Order> findAll();

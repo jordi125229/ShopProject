@@ -17,6 +17,12 @@ public class Order {
         return date;
     }
 
+    public Order(Client client, Cart cart, LocalDateTime date) {
+        this.client = client;
+        this.cart = cart;
+        this.date = date;
+    }
+
     public void setDate(LocalDateTime date) {
         this.date = date;
     }

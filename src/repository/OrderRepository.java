@@ -1,15 +1,12 @@
 package repository;
 
 import exceptions.NoOrderException;
-import money.Money;
 import order.Order;
-import product.Product;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
-public class OrderRepository implements OrderReposit {
+public class OrderRepository implements IOrderRepository {
     private List<Order> orders;
 
     public OrderRepository() {

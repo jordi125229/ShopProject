@@ -4,9 +4,8 @@ import money.Money;
 import product.Product;
 
 import java.util.List;
-import java.util.Optional;
 
-public interface CartsReposit {
+public interface CartsRepositoryInterface {
     void addProduct(Product product);
 
     List<Product> findAll();

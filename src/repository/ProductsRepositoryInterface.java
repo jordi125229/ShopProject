@@ -5,7 +5,7 @@ import product.Product;
 import java.util.Map;
 import java.util.Optional;
 
-public interface ProductsReposit {
+public interface ProductsRepositoryInterface {
     void add(Product product);
 
     Optional<Product> findProductById(String id);

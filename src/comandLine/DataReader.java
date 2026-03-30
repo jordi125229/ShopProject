@@ -47,13 +47,13 @@ public class DataReader {
 
     public Electronics readAndCreateElectronic() {
         System.out.println("Insert id: ");
-        String computerId = scanner.nextLine();
+        String electronicId = scanner.nextLine();
         System.out.println("Insert device's name: ");
-        String computerName = scanner.nextLine();
+        String electronicName = scanner.nextLine();
         System.out.println("Insert price: ");
         String price = scanner.nextLine();
         System.out.println("Insert quantity: ");
         int quantity = scanner.nextInt();
-        return new Electronics(computerId, computerName, Money.of(price), quantity);
+        return new Electronics(electronicId, electronicName, Money.of(price), quantity);
     }
 }
