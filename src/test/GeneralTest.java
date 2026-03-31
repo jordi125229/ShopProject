@@ -7,7 +7,6 @@ import manager.ProductManager;
 import money.Money;
 import order.Order;
 import product.Computer;
-import product.Product;
 import product.Smartphone;
 import repository.Cart;
 import repository.OrderRepository;
@@ -15,16 +14,15 @@ import repository.ProductRepository;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
-public class Test {
+public class GeneralTest {
     public static void main(String[] args) {
         ProductRepository repository = new ProductRepository();
         ProductManager productManager = new ProductManager(repository);
         Cart cart = new Cart();
         CartManager cartManager = new CartManager(cart, repository);
         OrderRepository orderRepository = new OrderRepository();
-        OrderManager orderManager = new OrderManager(orderRepository);
+        OrderManager orderManager = new OrderManager(orderRepository, cartManager);
         createComputerTest(productManager);
         createSmartfonTest(productManager);
         computerConfigurationTest(productManager);

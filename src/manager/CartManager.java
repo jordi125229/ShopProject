@@ -1,10 +1,14 @@
 package manager;
 
 import exceptions.NoProductException;
+import money.Money;
 import product.Product;
+import product.productToCart.ProductToCart;
 import repository.Cart;
 import repository.ProductRepository;
 
+import java.math.BigDecimal;
+import java.util.Collection;
 import java.util.List;
 
 public class CartManager {
@@ -17,7 +21,7 @@ public class CartManager {
     }
 
     public void printCarts() {
-        List<Product> all = cartRepository.findAll();
+        Collection<ProductToCart> all = cartRepository.findAll();
         System.out.println(all);
     }
 
@@ -27,17 +31,19 @@ public class CartManager {
             throw new NoProductException("No enough product in the warehouse!");
         }
         product.setQuantity(product.getQuantity() - quantity);
-
-        cartRepository.addProduct(product); //ODEJMUJAC JEDEN PRODUKT Z MAGAZYNU DODAJAC GO DO CARTY
+        cartRepository.addProduct(product, quantity);
     }
 
-//    public void addProductToCart(String id, int quantity) {
-//        Product product = productRepository.findProductById(id).orElseThrow(() -> new IllegalArgumentException("Product wasn't found!"));
-//        if (product.getQuantity() < quantity) {
-//            throw new NoProductException("No enough product in the warehouse!");
-//        }
-//        product.setQuantity(product.getQuantity() - quantity);
-//        Product productToCart = new Product(product.getId(), product.getName(), product.getPrice(), quantity);
-//        cartRepository.addProduct(productToCart);
-//    }
+    public Money calculateTotalPrice() {
+        Money sum = new Money(BigDecimal.ZERO);
+        try {
+            Collection<ProductToCart> items = cartRepository.findAll();
+            for (ProductToCart item : items) {
+                sum = sum.add(item.getProduct().getPrice().multiply(item.getQuantity()));
+            }
+        } catch (NoProductException e) {
+            return new Money(BigDecimal.ZERO);
+        }
+        return sum;
+    }
 }

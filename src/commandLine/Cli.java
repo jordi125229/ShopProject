@@ -1,4 +1,4 @@
-package comandLine;
+package commandLine;
 
 import client.Client;
 import exceptions.NoProductException;
@@ -37,7 +37,7 @@ public class Cli {
         this.cart = new Cart();
         this.cartManager = new CartManager(cart, productRepository);
         this.orderRepository = new OrderRepository();
-        this.orderManager = new OrderManager(orderRepository);
+        this.orderManager = new OrderManager(orderRepository, cartManager);
         this.invoiceManager = new InvoiceManager();
         this.invoiceRepository = new InvoiceRepository();
     }
@@ -68,6 +68,7 @@ public class Cli {
                 consolePrinter.printLine("Wrong option!");
             }
         } while (option != Option.EXIT);
+        consolePrinter.printLine("Goodbye!");
     }
 
     public void addSmartphone() {
@@ -88,12 +89,15 @@ public class Cli {
         consolePrinter.printLine("Electronic device created!");
     }
 
-    public void smartphoneConfiguration() { // do dopytania, bo srednio to wyglada
+    public void smartphoneConfiguration() {
         try {
             System.out.println("Insert product's id to configurate.");
             String id = dataReader.getString();
             Product product = getProductById(id);
-            Smartphone smartphone = (Smartphone) product; // tu nie do konca podoba mi sie to rozwiazanie
+            if (!(product instanceof Smartphone smartphone)) {
+                consolePrinter.printLine("Product is not a smartphone");
+                return;
+            }
             System.out.println("Insert smartphone's color: ");
             String color = dataReader.getString();
             System.out.println("Insert battery capacity: ");
@@ -112,7 +116,10 @@ public class Cli {
             consolePrinter.printLine("Insert product's id to configurate.");
             String id = dataReader.getString();
             Product product = getProductById(id);
-            Computer computer = (Computer) product;
+            if (!(product instanceof Computer computer)) {
+                consolePrinter.printLine("Product is not a computer");
+                return;
+            }
             consolePrinter.printLine("Insert computer's processor: ");
             String processor = dataReader.getString();
             consolePrinter.printLine("Insert RAM memory capacity: ");

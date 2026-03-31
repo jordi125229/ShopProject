@@ -1,6 +1,6 @@
 package app;
 
-import comandLine.Cli;
+import commandLine.Cli;
 
 public class App {
     public static void main(String[] args) {

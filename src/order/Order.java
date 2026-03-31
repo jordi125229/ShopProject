@@ -2,13 +2,17 @@ package order;
 
 import client.Client;
 import money.Money;
+import product.Product;
+import product.productToCart.ProductToCart;
 import repository.Cart;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Order {
     private Client client;
-    private Cart cart;
+    private List<ProductToCart> products;
     private Money totalPrice;
     private LocalDateTime date;
     private String id;
@@ -17,14 +21,14 @@ public class Order {
         return date;
     }
 
-    public Order(Client client, Cart cart, LocalDateTime date) {
+    public Order(Client client, List<ProductToCart> products, LocalDateTime date) {
         this.client = client;
-        this.cart = cart;
+        this.products = products;
         this.date = date;
     }
 
-    public void setDate(LocalDateTime date) {
-        this.date = date;
+    public List<ProductToCart> getProducts() {
+        return products;
     }
 
     public String getId() {
@@ -39,18 +43,6 @@ public class Order {
         return client;
     }
 
-    public void setClient(Client client) {
-        this.client = client;
-    }
-
-    public Cart getCart() {
-        return cart;
-    }
-
-    public void setCart(Cart cart) {
-        this.cart = cart;
-    }
-
     public Money getTotalPrice() {
         return totalPrice;
     }
@@ -61,11 +53,12 @@ public class Order {
 
     @Override
     public String toString() {
-        return "Order: " + "client: " + client +
-                ", " + cart +
-                ", totalPrice " + totalPrice +
-                ", order's date " + date +
-                ", id " + id + '\'' +
+        return "Order{" +
+                "client=" + client +
+                ", products=" + products +
+                ", totalPrice=" + totalPrice +
+                ", date=" + date +
+                ", id='" + id + '\'' +
                 '}';
     }
 }

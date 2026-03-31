@@ -1,4 +1,4 @@
-package comandLine;
+package commandLine;
 
 public enum Option {
     CREATE_SMARTPHONE(1, "Creating smartphone"),

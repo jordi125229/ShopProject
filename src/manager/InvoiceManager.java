@@ -2,7 +2,6 @@ package manager;
 
 import order.Order;
 import payment.Invoice;
-import repository.OrderRepository;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -18,7 +17,7 @@ public class InvoiceManager {
         invoice.setIssueDate(LocalDateTime.now());
         invoice.setClient(order.getClient());
         invoice.setTotal(order.getTotalPrice());
-        invoice.setItemDescription(order.getCart().toString()); // do przekminienia bo w momencie tworzenia zamowienia usuwam koszyk wiec nie mam z czego wziac opisu
+        invoice.setItemDescription(order.getProducts().toString());
         return invoice;
     }
 

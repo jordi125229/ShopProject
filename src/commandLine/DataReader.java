@@ -1,9 +1,10 @@
-package comandLine;
+package commandLine;
 
 import money.Money;
 import product.Computer;
 import product.Electronics;
 import product.Smartphone;
+
 import java.util.Scanner;
 
 public class DataReader {
@@ -22,8 +23,7 @@ public class DataReader {
     }
 
     public Smartphone readAndCreateSmartphone() {
-        System.out.println("Insert id: ");
-        String smartphoneId = scanner.nextLine();
+        String smartphoneId = getDeviceId();
         System.out.println("Insert smartphone's name: ");
         String smartphoneName = scanner.nextLine();
         System.out.println("Insert price: ");
@@ -34,8 +34,7 @@ public class DataReader {
     }
 
     public Computer readAndCreateComputer() {
-        System.out.println("Insert id: ");
-        String computerId = scanner.nextLine();
+        String computerId = getDeviceId();
         System.out.println("Insert computer's name: ");
         String computerName = scanner.nextLine();
         System.out.println("Insert price: ");
@@ -46,14 +45,18 @@ public class DataReader {
     }
 
     public Electronics readAndCreateElectronic() {
-        System.out.println("Insert id: ");
-        String electronicId = scanner.nextLine();
+        String deviceId = getDeviceId();
         System.out.println("Insert device's name: ");
         String electronicName = scanner.nextLine();
         System.out.println("Insert price: ");
         String price = scanner.nextLine();
         System.out.println("Insert quantity: ");
         int quantity = scanner.nextInt();
-        return new Electronics(electronicId, electronicName, Money.of(price), quantity);
+        return new Electronics(deviceId, electronicName, Money.of(price), quantity);
+    }
+
+    private String getDeviceId() {
+        System.out.println("Insert id: ");
+        return scanner.nextLine();
     }
 }

@@ -26,7 +26,7 @@ public class Test2 {
         CartManager cartManager = new CartManager(cart, repository);
         InvoiceManager invoiceManager = new InvoiceManager();
         OrderRepository orderRepository = new OrderRepository();
-        OrderManager orderManager = new OrderManager(orderRepository);
+        OrderManager orderManager = new OrderManager(orderRepository, cartManager);
         Computer lenovo = createAndConfigureComputer(productManager);
         createSmartfon(productManager, lenovo);
         Map<String, Product> all = getAndPrintAllProductFromMagazine(repository);

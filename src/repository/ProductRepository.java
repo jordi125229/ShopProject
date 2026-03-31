@@ -5,7 +5,7 @@ import product.Product;
 
 import java.util.*;
 
-public class ProductRepository implements ProductsRepositoryInterface {
+public class ProductRepository implements IProductsRepository {
     private Map<String, Product> products;
 
     public ProductRepository() {

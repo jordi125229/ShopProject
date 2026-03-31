@@ -1,7 +1,6 @@
 package money;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 
 public class Money {
     private final BigDecimal amount;

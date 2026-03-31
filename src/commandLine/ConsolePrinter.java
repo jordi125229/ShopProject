@@ -1,4 +1,4 @@
-package comandLine;
+package commandLine;
 
 import payment.Invoice;
 import product.Product;
