@@ -2,18 +2,21 @@ package test;
 
 import client.Client;
 import manager.CartManager;
+import manager.InvoiceManager;
 import manager.OrderManager;
 import manager.ProductManager;
 import money.Money;
 import order.Order;
+import payment.Invoice;
 import product.Computer;
-import product.Smartphone;
+import product.Product;
 import repository.Cart;
 import repository.OrderRepository;
 import repository.ProductRepository;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 public class GeneralTest {
     public static void main(String[] args) {
@@ -21,88 +24,48 @@ public class GeneralTest {
         ProductManager productManager = new ProductManager(repository);
         Cart cart = new Cart();
         CartManager cartManager = new CartManager(cart, repository);
+        InvoiceManager invoiceManager = new InvoiceManager();
         OrderRepository orderRepository = new OrderRepository();
         OrderManager orderManager = new OrderManager(orderRepository, cartManager);
-        createComputerTest(productManager);
-        createSmartfonTest(productManager);
-        computerConfigurationTest(productManager);
-        testOfAddingProductsToMap(repository);
-//        testOfRemovingFromMap(productManager, repository);
-        testOfCartWorking(repository, cartManager, cart);
-        cartClearingTest(cart);
-        orderCreateTest(cartManager, orderManager, cart, repository);
-        printAllOrdersTest(orderRepository);
-    }
+        Computer lenovo = createAndConfigureComputer(productManager);
+        createSmartfon(productManager, lenovo);
+        Map<String, Product> all = getAndPrintAllProductFromMagazine(repository);
+        addProductFromMagazineToCart(cartManager, all, cart);
+        createOrderAndInvoice(orderManager, cart, invoiceManager);
 
-    private static void createSmartfonTest(ProductManager productManager) {
-        System.out.println("Test2: creating smartfon");
-        Smartphone smartfon1 = productManager.createSmartphone("005", "samsung", Money.of("4600"), 10);
-        System.out.println(smartfon1 + "\n");
-    }
-
-    private static void createComputerTest(ProductManager productManager) {
-        System.out.println("Test1: creating computer");
-        Computer computer1 = productManager.createComputer("014", "HP", Money.of("2800"), 5);
-        System.out.println(computer1 + "\n");
-    }
-
-    private static void computerConfigurationTest(ProductManager productManager) {
-        System.out.println("Test3: configuration of computer");
-        Computer computer2 = productManager.createComputer("014", "HP", Money.of("2800"), 5);
-        System.out.println(computer2);
-        computer2.configuration("AMD", 16);
-        System.out.println(computer2 + "\n");
-    }
-
-    private static void testOfAddingProductsToMap(ProductRepository repository) {
-        System.out.println("Test 4: how map works");
-        String string = repository.findAll().toString();
-        System.out.println(string + "\n");
-    }
-
-    private static void testOfRemovingFromMap(ProductManager productManager, ProductRepository repository) {
-        System.out.println("Test 5: removing from map");
-        productManager.productDeleting("014");
-        String string = repository.findAll().toString();
-        System.out.println(string + "\n");
-    }
-
-//    private static void testOfProductUpdate(ProductManager productManager, ProductRepository repository) {
-//        System.out.println("Test 6: Product update");
-//        productManager.updateProduct("005", "sony", Money.of("3200"), 10);
-//        Optional<Product> productById = repository.findProductById("005");
-//        System.out.println(productById.get() + "\n");
-//    }
-
-    private static void testOfCartWorking(ProductRepository repository, CartManager cartManager, Cart cart) {
-        System.out.println("Test 7: cart creation");
-        String string = repository.findAll().toString();
-        System.out.println(string);
-        cartManager.addProductToCart("005", 1);
-        cart.findAll().forEach(System.out::println);
-        System.out.println();
-    }
-
-    private static void cartClearingTest(Cart cart) {
-        System.out.println("Test 8: cart's clearing");
-        cart.clearing();
-        cart.findAll().forEach(System.out::println);
-        System.out.println();
-    }
-
-    private static void orderCreateTest(CartManager cartManager, OrderManager orderManager, Cart cart, ProductRepository repository) {
-        System.out.println("Test 9: Ordering");
-        cartManager.addProductToCart("005", 2);
-        cartManager.addProductToCart("014", 5);
-        Order order = orderManager.order(cart, new Client("Piotr", "Nowak", "010311041"), LocalDateTime.now());
-        System.out.println(order);
-        String string = repository.findAll().toString();
-        System.out.println("Warehouse after ordering: " + "\n" + string + "\n");
-    }
-
-    private static void printAllOrdersTest(OrderRepository orderRepository) {
-        System.out.println("Test 10: Orders printing");
         List<Order> allOrders = orderRepository.findAll();
         System.out.println(allOrders);
+
+    }
+
+    private static void createOrderAndInvoice(OrderManager orderManager, Cart cart, InvoiceManager invoiceManager) {
+        Order order = orderManager.order(cart, new Client("Piotr", "Nowak", "012310101"), LocalDateTime.now());
+        System.out.println(order);
+//        System.out.println("Cart after ordering (empty): " + cart); -> to be checked, I want to clear the cart after ordering creation
+        Invoice invoice = invoiceManager.toInvoice(order);
+        System.out.println(invoice);
+    }
+
+    private static void addProductFromMagazineToCart(CartManager cartManager, Map<String, Product> all, Cart cart) {
+        cartManager.addProductToCart("430", 2);
+        System.out.println("Magazine after cart creation (look at quantity): " + all);
+        System.out.println("Cart: " + cart);
+    }
+
+    private static Map<String, Product> getAndPrintAllProductFromMagazine(ProductRepository repository) {
+        Map<String, Product> all = repository.findAll();
+        System.out.println("Magazine: " + all + '\n');
+        return all;
+    }
+
+    private static void createSmartfon(ProductManager productManager, Computer lenovo) {
+        productManager.createSmartphone("111231", "Iphone", Money.of("4900"), 3);
+        System.out.println(lenovo);
+    }
+
+    private static Computer createAndConfigureComputer(ProductManager productManager) {
+        Computer lenovo = productManager.createComputer("430", "Lenovo", Money.of("4200"), 5);
+        lenovo.configuration("AMD", 16);
+        return lenovo;
     }
 }

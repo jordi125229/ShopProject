@@ -1,10 +1,13 @@
 package commandLine;
 
 import client.Client;
+import exceptions.NegativeQuantityException;
 import exceptions.NoProductException;
 import manager.CartManager;
 import manager.InvoiceManager;
 import manager.OrderManager;
+import manager.ProductManager;
+import money.Money;
 import order.Order;
 import payment.Invoice;
 import product.Computer;
@@ -29,6 +32,7 @@ public class Cli {
     private OrderManager orderManager;
     private InvoiceManager invoiceManager;
     private InvoiceRepository invoiceRepository;
+    private ProductManager productManager;
 
     public Cli() {
         this.dataReader = new DataReader();
@@ -40,6 +44,7 @@ public class Cli {
         this.orderManager = new OrderManager(orderRepository, cartManager);
         this.invoiceManager = new InvoiceManager();
         this.invoiceRepository = new InvoiceRepository();
+        this.productManager = new ProductManager(productRepository);
     }
 
     public void controlLoop() {
@@ -72,21 +77,54 @@ public class Cli {
     }
 
     public void addSmartphone() {
-        Smartphone smartphone = dataReader.readAndCreateSmartphone();
-        productRepository.add(smartphone);
-        consolePrinter.printLine("Smartphone created!");
+        try {
+            System.out.println("Insert device's id: ");
+            String id = dataReader.getString();
+            System.out.println("Insert device's name: ");
+            String name = dataReader.getString();
+            System.out.println("Insert price: ");
+            String price = dataReader.getString();
+            System.out.println("Insert quantity: ");
+            int quantity = dataReader.getAndReturnInt();
+            productManager.createSmartphone(id, name, Money.of(price), quantity);
+            consolePrinter.printLine("Smartphone created!");
+        } catch (NegativeQuantityException e) {
+            System.out.println(e.getMessage() + " Please try again!");
+        }
     }
 
     public void addComputer() {
-        Computer computer = dataReader.readAndCreateComputer();
-        productRepository.add(computer);
-        consolePrinter.printLine("Computer created!");
+        try {
+            System.out.println("Insert device's id: ");
+            String id = dataReader.getString();
+            System.out.println("Insert device's name: ");
+            String name = dataReader.getString();
+            System.out.println("Insert price: ");
+            String price = dataReader.getString();
+            System.out.println("Insert quantity: ");
+            int quantity = dataReader.getAndReturnInt();
+            productManager.createComputer(id, name, Money.of(price), quantity);
+            consolePrinter.printLine("Computer created!");
+        } catch (NegativeQuantityException e) {
+            System.out.println(e.getMessage() + " Please try again!");
+        }
     }
 
     public void addElectronic() {
-        Electronics electronics = dataReader.readAndCreateElectronic();
-        productRepository.add(electronics);
-        consolePrinter.printLine("Electronic device created!");
+        try {
+            System.out.println("Insert device's name: ");
+            String id = dataReader.getString();
+            System.out.println("Insert device's name: ");
+            String name = dataReader.getString();
+            System.out.println("Insert price: ");
+            String price = dataReader.getString();
+            System.out.println("Insert quantity: ");
+            int quantity = dataReader.getAndReturnInt();
+            productManager.createElectronic(id, name, Money.of(price), quantity);
+            consolePrinter.printLine("Electronic device created!");
+        } catch (NegativeQuantityException e) {
+            System.out.println(e.getMessage() + " Please try again!");
+        }
     }
 
     public void smartphoneConfiguration() {
