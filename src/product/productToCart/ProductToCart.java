@@ -24,9 +24,6 @@ public class ProductToCart {
 
     @Override
     public String toString() {
-        return "ProductToCart{" +
-                "product=" + product +
-                ", quantity=" + quantity +
-                '}';
+        return "Product{ id " + product.getId() + "; " + product.getPrice() + ", quantity " + quantity + "}";
     }
 }
