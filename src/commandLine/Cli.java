@@ -1,17 +1,20 @@
-package comandLine;
+package commandLine;
 
 import client.Client;
+import exceptions.NegativeQuantityException;
 import exceptions.NoProductException;
 import exceptions.NoProductInTheCart;
 import manager.CartManager;
 import manager.InvoiceManager;
 import manager.OrderManager;
+import manager.ProductManager;
+import money.Money;
 import order.Order;
 import payment.Invoice;
 import product.Computer;
 import product.Electronics;
 import product.Product;
-import product.Smartfon;
+import product.Smartphone;
 import repository.Cart;
 import repository.InvoiceRepository;
 import repository.OrderRepository;
@@ -31,6 +34,7 @@ public class Cli {
     private OrderManager orderManager;
     private InvoiceManager invoiceManager;
     private InvoiceRepository invoiceRepository;
+    private ProductManager productManager;
 
     public Cli() {
         this.dataReader = new DataReader();
@@ -39,9 +43,10 @@ public class Cli {
         this.cart = new Cart();
         this.cartManager = new CartManager(cart, productRepository);
         this.orderRepository = new OrderRepository();
-        this.orderManager = new OrderManager(orderRepository);
+        this.orderManager = new OrderManager(orderRepository, cartManager);
         this.invoiceManager = new InvoiceManager();
         this.invoiceRepository = new InvoiceRepository();
+        this.productManager = new ProductManager(productRepository);
     }
 
     public void controlLoop() {
@@ -58,8 +63,8 @@ public class Cli {
                     case LIST_PRODUCTS -> productsPrinter();
                     case SMARTPHONE_CONFIGURATION -> smartphoneConfiguration();
                     case COMPUTER_CONFIGURATION -> computerConfiguration();
-                    case INITIALIZE_CART -> addProductToCart();
-                    case PRINT_CART -> cartPrinter();
+                    case ADD_TO_CART -> addProductToCart();
+                    case PRINT_CARTS -> cartPrinter();
                     case ADD_ORDER -> addOrder();
                     case CREATE_INVOICE -> createInvoice();
                     case PRINT_INVOICES -> invoicePrinter();
@@ -71,32 +76,69 @@ public class Cli {
                 consolePrinter.printLine("Wrong option!");
             }
         } while (option != Option.EXIT);
+        consolePrinter.printLine("Goodbye!");
     }
 
     public void addSmartphone() {
-        Smartfon smartfon = dataReader.readAndCreateSmartphone();
-        productRepository.add(smartfon);
-        consolePrinter.printLine("Smartphone created!");
+        try {
+            System.out.println("Insert device's id: ");
+            String id = dataReader.getString();
+            System.out.println("Insert device's name: ");
+            String name = dataReader.getString();
+            System.out.println("Insert price: ");
+            String price = dataReader.getString();
+            System.out.println("Insert quantity: ");
+            int quantity = dataReader.getAndReturnInt();
+            productManager.createSmartphone(id, name, Money.of(price), quantity);
+            consolePrinter.printLine("Smartphone created!");
+        } catch (NegativeQuantityException e) {
+            System.out.println(e.getMessage() + " Please try again!");
+        }
     }
 
     public void addComputer() {
-        Computer computer = dataReader.readAndCreateComputer();
-        productRepository.add(computer);
-        consolePrinter.printLine("Computer created!");
+        try {
+            System.out.println("Insert device's id: ");
+            String id = dataReader.getString();
+            System.out.println("Insert device's name: ");
+            String name = dataReader.getString();
+            System.out.println("Insert price: ");
+            String price = dataReader.getString();
+            System.out.println("Insert quantity: ");
+            int quantity = dataReader.getAndReturnInt();
+            productManager.createComputer(id, name, Money.of(price), quantity);
+            consolePrinter.printLine("Computer created!");
+        } catch (NegativeQuantityException e) {
+            System.out.println(e.getMessage() + " Please try again!");
+        }
     }
 
     public void addElectronic() {
-        Electronics electronics = dataReader.readAndCreateElectronic();
-        productRepository.add(electronics);
-        consolePrinter.printLine("Electronic device created!");
+        try {
+            System.out.println("Insert device's name: ");
+            String id = dataReader.getString();
+            System.out.println("Insert device's name: ");
+            String name = dataReader.getString();
+            System.out.println("Insert price: ");
+            String price = dataReader.getString();
+            System.out.println("Insert quantity: ");
+            int quantity = dataReader.getAndReturnInt();
+            productManager.createElectronic(id, name, Money.of(price), quantity);
+            consolePrinter.printLine("Electronic device created!");
+        } catch (NegativeQuantityException e) {
+            System.out.println(e.getMessage() + " Please try again!");
+        }
     }
 
-    public void smartphoneConfiguration() { // do dopytania, bo srednio to wyglada
+    public void smartphoneConfiguration() {
         try {
             System.out.println("Insert product's id to configurate.");
             String id = dataReader.getString();
             Product product = getProductById(id);
-            Smartfon smartfon = (Smartfon) product; // tu nie do konca podoba mi sie to rozwiazanie
+            if (!(product instanceof Smartphone smartphone)) {
+                consolePrinter.printLine("Product is not a smartphone");
+                return;
+            }
             System.out.println("Insert smartphone's color: ");
             String color = dataReader.getString();
             System.out.println("Insert battery capacity: ");
@@ -104,7 +146,7 @@ public class Cli {
             System.out.println("Insert additional accessory: ");
             String accessoriesInput = dataReader.getString();
             Set<String> additionalAccessory = Set.of(accessoriesInput);
-            smartfon.configuration(color, batteryCapacity, additionalAccessory);
+            smartphone.configuration(color, batteryCapacity, additionalAccessory);
         } catch (NoProductException e) {
             consolePrinter.printLine(e.getMessage());
         }
@@ -115,7 +157,10 @@ public class Cli {
             consolePrinter.printLine("Insert product's id to configurate.");
             String id = dataReader.getString();
             Product product = getProductById(id);
-            Computer computer = (Computer) product;
+            if (!(product instanceof Computer computer)) {
+                consolePrinter.printLine("Product is not a computer");
+                return;
+            }
             consolePrinter.printLine("Insert computer's processor: ");
             String processor = dataReader.getString();
             consolePrinter.printLine("Insert RAM memory capacity: ");
@@ -141,7 +186,7 @@ public class Cli {
     }
 
     public void cartPrinter() {
-        consolePrinter.printCarts(cart.findAll());
+        cartManager.printCarts();
     }
 
     public void productsPrinter() {
@@ -153,17 +198,10 @@ public class Cli {
     }
 
     public void addOrder() {
-        try {
-            if (cart.findAll().isEmpty()) {
-                throw new NoProductInTheCart("Your cart is empty. Please add products to the cart!");
-            }
-            Client client = getClientByProvidingData();
-            Order order = orderManager.order(cart, client, ZonedDateTime.now());
-            consolePrinter.printLine("Order created: " + order);
-            cart.clearing();
-        } catch (NoProductInTheCart e) {
-            System.out.println(e.getMessage());
-        }
+        Client client = getClientByProvidingData();
+        Order order = orderManager.order(cart, client, LocalDateTime.now());
+        consolePrinter.printLine("Order created: " + order);
+        cart.clearing();
     }
 
     public Client getClientByProvidingData() {

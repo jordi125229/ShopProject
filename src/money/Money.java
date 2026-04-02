@@ -1,7 +1,6 @@
 package money;
 
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 
 public class Money {
     private final BigDecimal amount;
@@ -11,24 +10,16 @@ public class Money {
         this.amount = amount;
     }
 
-    public static Money of(String s) {
-        return new Money(new BigDecimal(s));
+    public static Money of(String amount) {
+        return new Money(new BigDecimal(amount));
     }
 
     public Money add(Money other){
         return new Money(this.amount.add(other.amount));
     }
 
-    public Money subtract(Money other){
-        return new Money(this.amount.subtract(other.amount));
-    }
-
     public Money multiply(int quantity) {
         return new Money(this.amount.multiply(BigDecimal.valueOf(quantity)));
-    }
-
-    public Money divide(BigDecimal other) {
-        return new Money(this.amount.divide(other, 2, RoundingMode.HALF_UP));
     }
 
     @Override

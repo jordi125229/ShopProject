@@ -1,9 +1,13 @@
 package manager;
 
+import commandLine.DataReader;
+import exceptions.NegativeQuantityException;
+import exceptions.NoProductException;
 import money.Money;
 import product.Computer;
+import product.Electronics;
 import product.Product;
-import product.Smartfon;
+import product.Smartphone;
 import repository.ProductRepository;
 
 public class ProductManager {
@@ -13,27 +17,35 @@ public class ProductManager {
         this.productRepository = productRepository;
     }
 
-    public void updateProduct(String id, String name, Money price, int quantity) {
-        Product product = productRepository.findProductById(id).orElseThrow(() -> new IllegalArgumentException("Product not found"));
-        product.setName(name);
-        product.setPrice(price);
-        product.setQuantity(quantity);
-    }
-
     public Computer createComputer(String id, String name, Money price, int quantity) {
+        quantityValidation(quantity);
         Computer computer = new Computer(id, name, price, quantity);
         productRepository.add(computer);
         return computer;
     }
 
-    public Smartfon createSmartfon(String id, String name, Money price, int quantity) {
-        Smartfon smartfon = new Smartfon(id, name, price, quantity);
-        productRepository.add(smartfon);
-        return smartfon;
+    public Smartphone createSmartphone(String id, String name, Money price, int quantity) {
+        quantityValidation(quantity);
+        Smartphone smartphone = new Smartphone(id, name, price, quantity);
+        productRepository.add(smartphone);
+        return smartphone;
+    }
+
+    public Electronics createElectronic(String id, String name, Money price, int quantity) {
+        quantityValidation(quantity);
+        Electronics electronics = new Electronics(id, name, price, quantity);
+        productRepository.add(electronics);
+        return electronics;
+    }
+
+    private static void quantityValidation(int quantity) {
+        if (quantity < 0) {
+            throw new NegativeQuantityException("Quantity can't be negative!");
+        }
     }
 
     public void productDeleting(String id) {
-        Product product = productRepository.findProductById(id).orElseThrow(() -> new IllegalArgumentException("Product not found"));
+        Product product = productRepository.findProductById(id).orElseThrow(() -> new NoProductException("Product not found"));
         productRepository.delete(product);
     }
 }

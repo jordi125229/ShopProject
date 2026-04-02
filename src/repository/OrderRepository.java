@@ -1,5 +1,6 @@
 package repository;
 
+import exceptions.NoOrderException;
 import exceptions.CantSaveToFile;
 import file.FileReader;
 import file.FileWriter;
@@ -13,7 +14,7 @@ import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.List;
 
-public class OrderRepository implements OrderReposit {
+public class OrderRepository implements IOrderRepository {
     private List<Order> orders;
     private FileReader fileReader;
     private FileWriter fileWriter;
@@ -41,8 +42,6 @@ public class OrderRepository implements OrderReposit {
         return orders.stream()
                 .filter(order -> order.getId().equalsIgnoreCase(id))
                 .findFirst()
-                .orElseThrow(() -> new RuntimeException("Can't find order number " + id));
+                .orElseThrow(() -> new NoOrderException("Can't find order number " + id));
     }
 }
-
-
