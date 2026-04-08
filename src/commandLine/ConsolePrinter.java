@@ -3,7 +3,9 @@ package commandLine;
 import order.Order;
 import payment.Invoice;
 import product.Product;
+import product.productToCart.ProductToCart;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -22,11 +24,11 @@ public class ConsolePrinter {
         printLine(invoices.toString());
     }
 
-//    public void printOrders(List<Order> orders) { narazie niepotrzebna metoda
-//        printLine(orders.toString());
-//    }
+    public void printOrders(List<Order> orders) {
+        printLine(orders.toString());
+    }
 
-    public void printCarts(List<Product> productsBucket) {
+    public void printCarts(Collection<ProductToCart> productsBucket) {
         printLine(productsBucket.toString());
     }
 }

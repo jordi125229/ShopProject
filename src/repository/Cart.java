@@ -1,15 +1,12 @@
 package repository;
 
 import exceptions.NoProductException;
-import exceptions.NoProductInTheCart;
-import money.Money;
 import product.Product;
 import product.productToCart.ProductToCart;
 
-import java.math.BigDecimal;
 import java.util.*;
 
-public class Cart implements ICartsRepository {
+public class Cart implements ICart {
     private Map<String, ProductToCart> productsBucket;
 
     public Cart() {
@@ -38,12 +35,5 @@ public class Cart implements ICartsRepository {
     public String toString() {
         return "Cart: " +
                 "productsBucket=" + productsBucket;
-    }
-
-    public String serialize() {
-        return productsBucket.stream()
-                .map(p -> p.getName() + "," + p.getPrice() + "," + p.getQuantity())
-                .reduce((a, b) -> a + b)
-                .orElse("");
     }
 }

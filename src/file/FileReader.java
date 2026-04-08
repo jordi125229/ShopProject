@@ -8,14 +8,24 @@ import java.nio.file.Paths;
 import java.util.List;
 
 public class FileReader {
-    private static final Path FILE_PATH = Paths.get("orders.txt");
+    private static final Path FILE_PATH_ORDERS = Paths.get("orders.txt");
+    private static final Path FILE_PATH_INVOICES = Paths.get("invoices.txt");
 
-    public void printFromFile() {
+    public void printOrdersFromFile() {
         try {
-            List<String> strings = Files.readAllLines(FILE_PATH);
-            System.out.println(strings);
+            List<String> lines = Files.readAllLines(FILE_PATH_ORDERS);
+            lines.forEach(System.out::println);
         } catch (IOException e) {
-            System.out.println(e.getMessage());
+            System.out.println("Can't read orders");
+        }
+    }
+
+    public void printAllInvoices() {
+        try {
+            List<String> lines = Files.readAllLines(FILE_PATH_INVOICES);
+            lines.forEach(System.out::println);
+        } catch (IOException e) {
+            System.out.println("Can't' read invoices");
         }
     }
 }

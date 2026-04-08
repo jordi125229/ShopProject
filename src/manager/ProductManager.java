@@ -26,6 +26,7 @@ public class ProductManager {
 
     public Smartphone createSmartphone(String id, String name, Money price, int quantity) {
         quantityValidation(quantity);
+
         Smartphone smartphone = new Smartphone(id, name, price, quantity);
         productRepository.add(smartphone);
         return smartphone;

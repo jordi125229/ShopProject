@@ -1,0 +1,15 @@
+=== ORDER ===
+ID: BK-<2026-04-07482>
+Client: Mariusz
+Products:
+- Iphone 17 | Price 3999PLN | qty: 1
+- Macbook air 15 | Price 5900PLN | qty: 1
+Total: Price 9899PLN
+Date: 2026-04-07T19:37:29.041651900+02:00[Europe/Warsaw]
+=== ORDER ===
+ID: BK-<2026-04-07821>
+Client: Piotr
+Products:
+- Iphone 16  | Price 3200PLN | qty: 2
+Total: Price 6400PLN
+Date: 2026-04-07T19:42:02.499448700+02:00[Europe/Warsaw]

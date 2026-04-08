@@ -20,11 +20,6 @@ public class CartManager {
         this.productRepository = productRepository;
     }
 
-    public void printCarts() {
-        Collection<ProductToCart> all = cartRepository.findAll();
-        System.out.println(all);
-    }
-
     public void addProductToCart(String id, int quantity) {
         Product product = productRepository.findProductById(id).orElseThrow(() -> new IllegalArgumentException("Product wasn't found!"));
         if (product.getQuantity() < quantity) {

@@ -62,4 +62,11 @@ public class Order {
                 ", id='" + id + '\'' +
                 '}';
     }
+
+    public String serialize() {
+        return products.stream()
+                .map(p -> p.getProduct().getName() + "," + p.getProduct().getPrice() + "," + p.getQuantity())
+                .reduce((a, b) -> a + b)
+                .orElse("");
+    }
 }

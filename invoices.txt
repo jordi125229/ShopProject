@@ -1,0 +1,13 @@
+=== INVOICE ===
+Number: INV-<2026-04-07>-<07482>
+Client: Mariusz
+Total: Price 9899PLN
+Date: 2026-04-07T19:37:45.862463800
+Description: [Product{ id 1210; Iphone 17; Price 3999PLN, quantity 1}, Product{ id Macbook air; Macbook air 15; Price 5900PLN, quantity 1}]
+
+=== INVOICE ===
+Number: INV-<2026-04-07>-<07821>
+Client: Piotr
+Total: Price 6400PLN
+Date: 2026-04-07T19:42:12.950626400
+Description: [Product{ id 1321; Iphone 16 ; Price 3200PLN, quantity 2}]

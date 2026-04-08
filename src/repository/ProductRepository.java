@@ -12,18 +12,14 @@ import java.util.*;
 
 public class ProductRepository implements IProductsRepository {
     private Map<String, Product> products;
-    private FileReader fileReader;
-    private FileWriter fileWriter;
 
     public ProductRepository() {
         this.products = new HashMap<>();
-        this.fileWriter = new FileWriter();
     }
 
     @Override
     public void add(Product product) {
         products.put(product.getId(), product);
-        fileWriter.saveProductToFile(product);
     }
 
     @Override
@@ -33,7 +29,7 @@ public class ProductRepository implements IProductsRepository {
 
     @Override
     public Map<String, Product> findAll() {
-        if (products.isEmpty()){
+        if (products.isEmpty()) {
             throw new NoProductException("No products");
         }
         return products;
