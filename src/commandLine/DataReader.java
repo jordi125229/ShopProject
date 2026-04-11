@@ -3,7 +3,7 @@ package commandLine;
 import java.util.Scanner;
 
 public class DataReader {
-    private Scanner scanner = new Scanner(System.in);
+    private final Scanner scanner = new Scanner(System.in);
 
     public int getAndReturnInt() {
         try {

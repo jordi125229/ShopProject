@@ -10,16 +10,15 @@ public class Computer extends Product {
         super(id, name, price, quantity);
     }
 
-    public Computer configuration(String processor, int ram) {
+    public void configuration(String processor, int ram) {
         this.processor = processor;
         this.ram = ram;
-        return this;
     }
 
     @Override
     public String toString() {
-        return "Computer - " + super.toString() +
+        return "Computer{" + super.toString() +
                 "processor:'" + processor + '\'' +
-                ", ram: " + ram + "|";
+                ", ram: " + ram + "}";
     }
 }

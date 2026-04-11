@@ -13,16 +13,15 @@ public class Smartphone extends Product {
         super(id, name, price, quantity);
     }
 
-    public Smartphone configuration(String color, int batteryCapacity, Set<String> additionalAccessory) {
+    public void configuration(String color, int batteryCapacity, Set<String> additionalAccessory) {
         this.color = color;
         this.batteryCapacity = batteryCapacity;
         this.additionalAccessory = additionalAccessory;
-        return this;
     }
 
     @Override
     public String toString() {
-        return "Smartfon{" + super.toString() +
+        return "Smartphone{" + super.toString() +
                 "color='" + color + '\'' +
                 ", batteryCapacity=" + batteryCapacity +
                 ", additionalAccessory='" + additionalAccessory + '\'' +

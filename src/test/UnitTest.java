@@ -11,6 +11,7 @@ import product.Smartphone;
 import repository.Cart;
 import repository.OrderRepository;
 import repository.ProductRepository;
+import threadsExecutor.OrderExecutor;
 
 import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
@@ -23,7 +24,8 @@ public class UnitTest {
         Cart cart = new Cart();
         CartManager cartManager = new CartManager(cart, repository);
         OrderRepository orderRepository = new OrderRepository();
-        OrderManager orderManager = new OrderManager(orderRepository, cartManager);
+        OrderExecutor orderExecutor = new OrderExecutor();
+        OrderManager orderManager = new OrderManager(orderRepository, cartManager, orderExecutor);
         createComputerTest(productManager);
         createSmartfonTest(productManager);
         computerConfigurationTest(productManager);

@@ -13,6 +13,7 @@ import product.Product;
 import repository.Cart;
 import repository.OrderRepository;
 import repository.ProductRepository;
+import threadsExecutor.OrderExecutor;
 
 import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
@@ -25,9 +26,10 @@ public class GeneralTest {
         ProductManager productManager = new ProductManager(repository);
         Cart cart = new Cart();
         CartManager cartManager = new CartManager(cart, repository);
-        InvoiceManager invoiceManager = new InvoiceManager();
+        OrderExecutor orderExecutor = new OrderExecutor();
+        InvoiceManager invoiceManager = new InvoiceManager(orderExecutor);
         OrderRepository orderRepository = new OrderRepository();
-        OrderManager orderManager = new OrderManager(orderRepository, cartManager);
+        OrderManager orderManager = new OrderManager(orderRepository, cartManager, orderExecutor);
         Computer lenovo = createAndConfigureComputer(productManager);
         createSmartfon(productManager, lenovo);
         Map<String, Product> all = getAndPrintAllProductFromMagazine(repository);
