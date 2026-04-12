@@ -27,21 +27,19 @@ public class FileReader {
         }
     }
 
-    public void importComputersFromFile(ProductManager productManager){
+    public void importComputersFromFile(ProductManager productManager) {
         try {
             List<String> lines = Files.readAllLines(FILE_PATH_PRODUCTS);
             lines.stream().map(line -> line.split(","))
                     .forEach(variable -> {
-                        String type = variable[0];
-                        if (type.equals("Computer")) {
-                            productManager.createComputer(variable[1], variable[2],
-                                    new Money(new BigDecimal(variable[4])),Integer.parseInt(variable[3]));
-                        } else if (type.equals("Smartphone")) {
-                            productManager.createSmartphone(variable[1], variable[2],
-                                    new Money(new BigDecimal(variable[4])),Integer.parseInt(variable[3]));
-                        } else {
-                            productManager.createElectronic(variable[1], variable[2],
-                                    new Money(new BigDecimal(variable[4])),Integer.parseInt(variable[3]));
+                        String electronicType = variable[0];
+                        switch (electronicType) {
+                            case "Computer" -> productManager.createComputer(variable[1], variable[2],
+                                    new Money(new BigDecimal(variable[4])), Integer.parseInt(variable[3]));
+                            case "Smartphone" -> productManager.createSmartphone(variable[1], variable[2],
+                                    new Money(new BigDecimal(variable[4])), Integer.parseInt(variable[3]));
+                            default -> productManager.createElectronic(variable[1], variable[2],
+                                    new Money(new BigDecimal(variable[4])), Integer.parseInt(variable[3]));
                         }
                     });
         } catch (IOException e) {
