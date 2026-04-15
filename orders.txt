@@ -1,48 +1,24 @@
 === ORDER ===
-ID: BK-<2026-04-0988>
-Client: prrp
+ID: BK-<2026-04-14481>
+Client: Mariusz
 Products:
-- dell | Price 3400PLN | qty: 2
-Total: Price 6800PLN
-Date: 2026-04-09T19:29:53.615743+02:00[Europe/Warsaw]
+- Iphone 15 | Price 3.315PLN | qty: 3
+Total: Price 8.453PLN
+Date: 2026-04-14T11:50:40.716757500+02:00[Europe/Warsaw]
 
 === ORDER ===
-ID: BK-<2026-04-10732>
-Client: Mariola
-Products:
-- Samsung | Price 4000PLN | qty: 2
-Total: Price 8000PLN
-Date: 2026-04-10T07:54:32.847781600+02:00[Europe/Warsaw]
-
-=== ORDER ===
-ID: BK-<2026-04-10564>
-Client: Adam
-Products:
-- dell | Price 3400PLN | qty: 10
-Total: Price 34000PLN
-Date: 2026-04-10T07:55:54.453409400+02:00[Europe/Warsaw]
-
-=== ORDER ===
-ID: BK-<2026-04-10839>
-Client: Piot
-Products:
-- dell | Price 3400PLN | qty: 10
-Total: Price 34000PLN
-Date: 2026-04-10T08:09:44.344145700+02:00[Europe/Warsaw]
-
-=== ORDER ===
-ID: BK-<2026-04-10813>
-Client: Marcin
-Products:
-- Samsung | Price 4000PLN | qty: 10
-Total: Price 40000PLN
-Date: 2026-04-10T08:34:45.769477800+02:00[Europe/Warsaw]
-
-=== ORDER ===
-ID: BK-<2026-04-10433>
+ID: BK-<2026-04-14895>
 Client: Piotr
 Products:
-- dell | Price 3400PLN | qty: 2
-Total: Price 6800PLN
-Date: 2026-04-10T17:08:30.664582900+02:00[Europe/Warsaw]
+- Iphone 15 | Price 3.315PLN | qty: 1
+Total: Price 3.315PLN
+Date: 2026-04-14T21:05:31.137162700+02:00[Europe/Warsaw]
+
+=== ORDER ===
+ID: BK-<2026-04-14818>
+Client: Piotr
+Products:
+- Iphone 15 | Price 3.315PLN | qty: 1
+Total: Price 3.315PLN
+Date: 2026-04-14T21:06:27.399714400+02:00[Europe/Warsaw]
 

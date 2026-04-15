@@ -8,6 +8,7 @@ import repository.Cart;
 import repository.ProductRepository;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Collection;
 import java.util.List;
 
@@ -30,15 +31,26 @@ public class CartManager {
     }
 
     public Money calculateTotalPrice() {
-        Money sum = new Money(BigDecimal.ZERO);
         try {
+            Money sum = new Money(BigDecimal.ZERO);
+            int itemQuantity = 0;
             Collection<ProductToCart> items = cartRepository.findAll();
             for (ProductToCart item : items) {
                 sum = sum.add(item.getProduct().getPrice().multiply(item.getQuantity()));
+                itemQuantity += item.getQuantity();
             }
+            return discountsCalculation(itemQuantity, sum);
         } catch (NoProductException e) {
             return new Money(BigDecimal.ZERO);
         }
-        return sum;
+    }
+
+    private static Money discountsCalculation(int itemQuantity, Money sum) {
+        if (itemQuantity >= 3) {
+            BigDecimal discount = new BigDecimal("0.85").setScale(2, RoundingMode.HALF_UP);
+            return sum.multiply(discount);
+        } else {
+            return sum;
+        }
     }
 }

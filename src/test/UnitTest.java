@@ -11,11 +11,11 @@ import product.Smartphone;
 import repository.Cart;
 import repository.OrderRepository;
 import repository.ProductRepository;
-import threadsExecutor.OrderExecutor;
+import threadsExecutor.Executor;
 
-import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 import java.util.List;
+import java.util.concurrent.Executors;
 
 public class UnitTest {
     public static void main(String[] args) {
@@ -24,7 +24,7 @@ public class UnitTest {
         Cart cart = new Cart();
         CartManager cartManager = new CartManager(cart, repository);
         OrderRepository orderRepository = new OrderRepository();
-        OrderExecutor orderExecutor = new OrderExecutor();
+        Executor orderExecutor = new Executor(3);
         OrderManager orderManager = new OrderManager(orderRepository, cartManager, orderExecutor);
         createComputerTest(productManager);
         createSmartfonTest(productManager);
@@ -97,7 +97,7 @@ public class UnitTest {
         System.out.println("Test 9: Ordering");
         cartManager.addProductToCart("005", 2);
         cartManager.addProductToCart("014", 5);
-        Order order = orderManager.order(cart, new Client("Piotr", "Nowak", "010311041"), ZonedDateTime.now());
+        Order order = (Order) orderManager.order(cart, new Client("Piotr", "Nowak", "010311041"), ZonedDateTime.now());
         System.out.println(order);
         String string = repository.findAll().toString();
         System.out.println("Warehouse after ordering: " + "\n" + string + "\n");
