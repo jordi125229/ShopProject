@@ -18,7 +18,6 @@ import threadsExecutor.Executor;
 import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.Executors;
 
 public class GeneralTest {
     public static void main(String[] args) {
@@ -31,7 +30,7 @@ public class GeneralTest {
         OrderRepository orderRepository = new OrderRepository();
         OrderManager orderManager = new OrderManager(orderRepository, cartManager, orderExecutor);
         Computer lenovo = createAndConfigureComputer(productManager);
-        createSmartfon(productManager, lenovo);
+        createSmartphone(productManager, lenovo);
         Map<String, Product> all = getAndPrintAllProductFromMagazine(repository);
         addProductFromMagazineToCart(cartManager, all, cart);
         createOrderAndInvoice(orderManager, cart, invoiceManager);
@@ -60,7 +59,7 @@ public class GeneralTest {
         return all;
     }
 
-    private static void createSmartfon(ProductManager productManager, Computer lenovo) {
+    private static void createSmartphone(ProductManager productManager, Computer lenovo) {
         productManager.createSmartphone("111231", "Iphone", Money.of("4900"), 3);
         System.out.println(lenovo);
     }

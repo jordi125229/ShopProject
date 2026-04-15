@@ -19,11 +19,9 @@ import repository.InvoiceRepository;
 import repository.OrderRepository;
 import repository.ProductRepository;
 import threadsExecutor.Executor;
-
 import java.time.ZonedDateTime;
 import java.util.*;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Executors;
 
 public class Cli {
     private final DataReader dataReader;
@@ -91,71 +89,71 @@ public class Cli {
 
     public void addSmartphone() {
         try {
-            System.out.println("Insert device's id: ");
+            consolePrinter.printLine("Insert device's id: ");
             String id = dataReader.getString();
-            System.out.println("Insert device's name: ");
+            consolePrinter.printLine("Insert device's name: ");
             String name = dataReader.getString();
-            System.out.println("Insert price: ");
+            consolePrinter.printLine("Insert price: ");
             String price = dataReader.getString();
-            System.out.println("Insert quantity: ");
+            consolePrinter.printLine("Insert quantity: ");
             int quantity = dataReader.getAndReturnInt();
             Smartphone smartphone = productManager.createSmartphone(id, name, Money.of(price), quantity);
             consolePrinter.printLine("Smartphone created!");
             fileWriter.saveSmartphoneToFile(smartphone);
         } catch (NegativeQuantityException | MoneyCantBeNegative e) {
-            System.out.println(e.getMessage() + " Please try again!");
+            consolePrinter.printLine(e.getMessage() + " Please try again!");
         }
     }
 
     public void addComputer() {
         try {
-            System.out.println("Insert device's id: ");
+            consolePrinter.printLine("Insert device's id: ");
             String id = dataReader.getString();
-            System.out.println("Insert device's name: ");
+            consolePrinter.printLine("Insert device's name: ");
             String name = dataReader.getString();
-            System.out.println("Insert price: ");
+            consolePrinter.printLine("Insert price: ");
             String price = dataReader.getString();
-            System.out.println("Insert quantity: ");
+            consolePrinter.printLine("Insert quantity: ");
             int quantity = dataReader.getAndReturnInt();
             Computer computer = productManager.createComputer(id, name, Money.of(price), quantity);
             consolePrinter.printLine("Computer created!");
             fileWriter.saveComputerToFile(computer);
         } catch (NegativeQuantityException | MoneyCantBeNegative e) {
-            System.out.println(e.getMessage() + " Please try again!");
+            consolePrinter.printLine(e.getMessage() + " Please try again!");
         }
     }
 
     public void addElectronic() {
         try {
-            System.out.println("Insert device's name: ");
+            consolePrinter.printLine("Insert device's name: ");
             String id = dataReader.getString();
-            System.out.println("Insert device's name: ");
+            consolePrinter.printLine("Insert device's name: ");
             String name = dataReader.getString();
-            System.out.println("Insert price: ");
+            consolePrinter.printLine("Insert price: ");
             String price = dataReader.getString();
-            System.out.println("Insert quantity: ");
+            consolePrinter.printLine("Insert quantity: ");
             int quantity = dataReader.getAndReturnInt();
             productManager.createElectronic(id, name, Money.of(price), quantity);
             consolePrinter.printLine("Electronic device created!");
         } catch (NegativeQuantityException | MoneyCantBeNegative e) {
-            System.out.println(e.getMessage() + " Please try again!");
+            consolePrinter.printLine(e.getMessage() + " Please try again!");
         }
     }
 
     public void smartphoneConfiguration() {
         try {
-            System.out.println("Insert product's id to configurate.");
+            consolePrinter.printLine("Insert product's id to configurate.");
             String id = dataReader.getString();
             Product product = getProductById(id);
             if (!(product instanceof Smartphone smartphone)) {
                 consolePrinter.printLine("Product is not a smartphone");
                 return;
             }
-            System.out.println("Insert smartphone's color: ");
+            consolePrinter.printLine("Insert smartphone's color: ");
             String color = dataReader.getString();
-            System.out.println("Insert battery capacity: ");
+            consolePrinter.printLine("Insert battery capacity: ");
             int batteryCapacity = dataReader.getAndReturnInt();
-            System.out.println("Insert additional accessory: ");
+            consolePrinter.printLine("Insert additional accessory: ");
             String accessoriesInput = dataReader.getString();
             Set<String> additionalAccessory = Set.of(accessoriesInput);
             smartphone.configuration(color, batteryCapacity, additionalAccessory);
@@ -218,7 +216,7 @@ public class Cli {
             fileWriter.saveOrderToFile(order);
             cart.clearing();
         } catch (NoProductException | InterruptedException | ExecutionException e) {
-            System.out.println(e.getMessage());
+            consolePrinter.printLine(e.getMessage());
         }
     }
 
@@ -239,10 +237,10 @@ public class Cli {
             Order orderById = orderRepository.findOrderById(orderId);
             Invoice invoice = invoiceManager.toInvoice(orderById);
             invoiceRepository.addInvoice(invoice);
-            System.out.println("Invoice created: " + invoice);
+            consolePrinter.printLine("Invoice created: " + invoice);
             fileWriter.saveInvoiceToFile(invoice);
         } catch (NoOrderException e) {
-            System.out.println(e.getMessage());
+            consolePrinter.printLine(e.getMessage());
         }
     }
 

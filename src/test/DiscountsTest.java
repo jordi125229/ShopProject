@@ -12,11 +12,9 @@ import repository.Cart;
 import repository.OrderRepository;
 import repository.ProductRepository;
 import threadsExecutor.Executor;
-
 import java.time.ZonedDateTime;
 import java.util.Collection;
 import java.util.Map;
-import java.util.concurrent.Executors;
 
 public class DiscountsTest {
     public static void main(String[] args) {

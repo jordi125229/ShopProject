@@ -3,8 +3,6 @@ package file;
 
 import manager.ProductManager;
 import money.Money;
-import product.Computer;
-import product.Smartphone;
 
 import java.io.IOException;
 import java.math.BigDecimal;
