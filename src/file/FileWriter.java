@@ -1,12 +1,13 @@
 package file;
 
 
+import exceptions.CantSaveToFile;
 import order.Order;
 import payment.Invoice;
 import product.Computer;
 import product.Product;
 import product.Smartphone;
-import product.productToCart.ProductToCart;
+import product.ProductToCart;
 import repository.ProductRepository;
 
 import java.io.IOException;
@@ -26,14 +27,7 @@ public class FileWriter {
         Collection<Product> products = productRepository.findAll().values();
         List<String> list = products.stream()
                 .map(product -> {
-                    String electronicType;
-                    if (product instanceof Computer) {
-                        electronicType = "Computer,";
-                    } else if (product instanceof Smartphone) {
-                        electronicType = "Smartphone,";
-                    } else {
-                        electronicType = "Electronic,";
-                    }
+                    String electronicType = getElectronicTypeFromProduct(product);
                     return String.join(",", electronicType + product.getId(),
                             product.getName(), String.valueOf(product.getQuantity()), product.getPrice().getAmount().toString()
                     );
@@ -46,33 +40,25 @@ public class FileWriter {
         }
     }
 
+    private static String getElectronicTypeFromProduct(Product product) {
+        String electronicType;
+        if (product instanceof Computer) {
+            electronicType = "Computer,";
+        } else if (product instanceof Smartphone) {
+            electronicType = "Smartphone,";
+        } else {
+            electronicType = "Electronic,";
+        }
+        return electronicType;
+    }
+
     public void saveOrderToFile(Order order) {
         String orderToString = formatOrder(order);
         try {
             Files.writeString(FILE_PATH_ORDERS, orderToString, StandardOpenOption.CREATE, StandardOpenOption.APPEND
             );
         } catch (IOException e) {
-            throw new RuntimeException("Can't save order");
-        }
-    }
-
-    public void saveSmartphoneToFile(Product product) {
-        String productToString = formatProduct(product);
-        try {
-            Files.writeString(FILE_PATH_PRODUCTS, productToString, StandardOpenOption.CREATE
-            );
-        } catch (IOException e) {
-            throw new RuntimeException("Can't save order");
-        }
-    }
-
-    public void saveComputerToFile(Product product) {
-        String productToString = formatProduct(product);
-        try {
-            Files.writeString(FILE_PATH_PRODUCTS, productToString, StandardOpenOption.CREATE
-            );
-        } catch (IOException e) {
-            throw new RuntimeException("Can't save order");
+            throw new CantSaveToFile("Can't save order");
         }
     }
 
@@ -84,10 +70,6 @@ public class FileWriter {
         } catch (IOException e) {
             throw new RuntimeException("Can't save invoice");
         }
-    }
-
-    private String formatProduct(Product product) {
-        return product.getId() + "," + product.getName() + "," + product.getQuantity() + "," + product.getPrice().getAmount() + "\n";
     }
 
     private String formatOrder(Order order) { // z tym formatowaniem wspomagalem sie LLMem
@@ -119,4 +101,5 @@ public class FileWriter {
                 "Date: " + invoice.getIssueDate() + "\n" +
                 "Description: " + invoice.getItemDescription() + "\n";
     }
+
 }

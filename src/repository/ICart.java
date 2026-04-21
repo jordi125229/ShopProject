@@ -1,7 +1,7 @@
 package repository;
 
 import product.Product;
-import product.productToCart.ProductToCart;
+import product.ProductToCart;
 
 import java.util.Collection;
 
@@ -10,5 +10,5 @@ public interface ICart {
 
     Collection<ProductToCart> findAll();
 
-    void clearing();
+    void clear();
 }

@@ -1,8 +1,9 @@
 package repository;
 
 import exceptions.NoProductException;
+import exceptions.NoProductInTheCart;
 import product.Product;
-import product.productToCart.ProductToCart;
+import product.ProductToCart;
 
 import java.util.*;
 
@@ -20,14 +21,15 @@ public class Cart implements ICart {
 
     @Override
     public Collection<ProductToCart> findAll() {
-        if (productsBucket.isEmpty()) {
-            throw new NoProductException("Cart is empty!");
-        }
         return productsBucket.values();
     }
 
+    public boolean isEmpty() {
+        return productsBucket.isEmpty();
+    }
+
     @Override
-    public void clearing() {
+    public void clear() {
         productsBucket.clear();
     }
 

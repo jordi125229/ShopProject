@@ -7,7 +7,7 @@ import payment.Invoice;
 import java.util.concurrent.*;
 
 public class Executor {
-    ExecutorService executorService;
+    private final ExecutorService executorService;
 
     public Executor(int threadsNumber) {
         this.executorService = Executors.newFixedThreadPool(threadsNumber);
@@ -17,20 +17,15 @@ public class Executor {
         return executorService;
     }
 
-    public Future<?> orderProcessing(Order order) {
-        return executorService.submit(() -> {
-            order.setOrderStatus(OrderStatus.PENDING);
-            processing();
-            System.out.println("Order " + order.getId() + " is being finalized");
-            order.setOrderStatus(OrderStatus.FINALIZED);
-        });
+    public void processOrder(Order order) {
+        order.setOrderStatus(OrderStatus.PENDING);
+        processing();
+        order.setOrderStatus(OrderStatus.FINALIZED);
     }
 
-    public Future<?> invoiceProcessing(Invoice invoice) {
-        return executorService.submit(() -> {
-            System.out.println("Invoice " + invoice.getInvoiceNumber() + " is being finalized");
-            processing();
-        });
+    public void processInvoice(Invoice invoice) {
+        System.out.println("Invoice " + invoice.getInvoiceNumber() + " is being finalized");
+        processing();
     }
 
     private static void processing() {

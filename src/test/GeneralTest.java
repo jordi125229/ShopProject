@@ -18,6 +18,7 @@ import threadsExecutor.Executor;
 import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutionException;
 
 public class GeneralTest {
     public static void main(String[] args) {
@@ -43,7 +44,12 @@ public class GeneralTest {
         Order order = (Order) orderManager.order(cart, new Client("Piotr", "Nowak", "012310101"), ZonedDateTime.now());
         System.out.println(order);
 //        System.out.println("Cart after ordering (empty): " + cart); -> to be checked, I want to clear the cart after ordering creation
-        Invoice invoice = invoiceManager.toInvoice(order);
+        Invoice invoice = null;
+        try {
+            invoice = invoiceManager.toInvoice(order).get();
+        } catch (InterruptedException | ExecutionException e) {
+            throw new RuntimeException(e);
+        }
         System.out.println(invoice);
     }
 

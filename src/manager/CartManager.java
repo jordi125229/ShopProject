@@ -3,18 +3,19 @@ package manager;
 import exceptions.NoProductException;
 import money.Money;
 import product.Product;
-import product.productToCart.ProductToCart;
+import product.ProductToCart;
 import repository.Cart;
 import repository.ProductRepository;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Collection;
-import java.util.List;
 
 public class CartManager {
     private final Cart cartRepository;
     private final ProductRepository productRepository;
+    private static final String DISCOUNT_MULTIPLAYER = "0.85";
+    private static final int DISCOUNT_THRESHOLD = 3;
 
     public CartManager(Cart cartRepository, ProductRepository productRepository) {
         this.cartRepository = cartRepository;
@@ -46,8 +47,8 @@ public class CartManager {
     }
 
     private static Money discountsCalculation(int itemQuantity, Money sum) {
-        if (itemQuantity >= 3) {
-            BigDecimal discount = new BigDecimal("0.85").setScale(2, RoundingMode.HALF_UP);
+        if (itemQuantity >= DISCOUNT_THRESHOLD) {
+            BigDecimal discount = new BigDecimal(DISCOUNT_MULTIPLAYER).setScale(2, RoundingMode.HALF_UP);
             return sum.multiply(discount);
         } else {
             return sum;

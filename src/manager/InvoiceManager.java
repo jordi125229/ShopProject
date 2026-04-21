@@ -4,7 +4,7 @@ import order.Order;
 import payment.Invoice;
 import threadsExecutor.Executor;
 
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
@@ -12,31 +12,28 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class InvoiceManager {
-    private Executor orderExecutor;
+    private final Executor invoiceExecutor;
 
     public InvoiceManager(Executor orderExecutor) {
-        this.orderExecutor = orderExecutor;
+        this.invoiceExecutor = orderExecutor;
     }
 
-    public Invoice toInvoice(Order order) {
+    public Future<Invoice> toInvoice(Order order) {
         Invoice invoice = new Invoice();
         String counter = extractCounter(order.getId());
-        String date = gettingDate(order);
+        String date = getFormattedDate(order);
         invoice.setInvoiceNumber("INV-<" + date + ">-<" + counter + ">");
-        invoice.setIssueDate(LocalDateTime.now());
+        invoice.setIssueDate(ZonedDateTime.now());
         invoice.setClient(order.getClient());
         invoice.setTotal(order.getTotalPrice());
         invoice.setItemDescription(order.getProducts().toString());
-        Future<?> futureInvoice = orderExecutor.invoiceProcessing(invoice);
-        try {
-            futureInvoice.get();
-        } catch (InterruptedException | ExecutionException e) {
-            throw new RuntimeException(e);
-        }
-        return invoice;
+        return invoiceExecutor.getExecutorService().submit(() -> {
+            invoiceExecutor.processInvoice(invoice);
+            return invoice;
+        });
     }
 
-    private String gettingDate(Order order) {
+    private String getFormattedDate(Order order) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         return order.getDate().format(formatter);
     }
