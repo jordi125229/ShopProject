@@ -7,7 +7,6 @@ import money.Money;
 import java.time.ZonedDateTime;
 
 @Data
-
 public class Invoice {
     private String invoiceNumber;
     private ZonedDateTime issueDate;

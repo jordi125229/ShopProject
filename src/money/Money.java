@@ -8,8 +8,8 @@ import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.Locale;
 
+@Getter
 public class Money {
-    @Getter
     private final BigDecimal amount;
     private final String currency = "PLN";
 
