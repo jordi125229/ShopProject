@@ -38,7 +38,7 @@ public class DiscountsTest {
         System.out.println(allProducts);
         Collection<ProductToCart> allProductsInCart = cart.findAll();
         System.out.println(allProductsInCart);
-        Order order = null;
+        Order order;
         try {
             order = orderManager.order(cart, testClient, ZonedDateTime.now()).get();
         } catch (InterruptedException | ExecutionException e) {

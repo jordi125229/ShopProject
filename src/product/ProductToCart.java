@@ -1,5 +1,10 @@
 package product;
 
+import lombok.Getter;
+import lombok.ToString;
+
+@Getter
+@ToString
 public class ProductToCart {
     private final Product product;
     private final int quantity;
@@ -10,18 +15,5 @@ public class ProductToCart {
         }
         this.product = product;
         this.quantity = quantity;
-    }
-
-    public Product getProduct() {
-        return product;
-    }
-
-    public int getQuantity() {
-        return quantity;
-    }
-
-    @Override
-    public String toString() {
-        return "Product{ id " + product.getId() + "; " + product.getName() + "; " + product.getPrice() + ", quantity " + quantity + "}";
     }
 }

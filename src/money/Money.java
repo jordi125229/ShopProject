@@ -1,14 +1,15 @@
 package money;
 
 import exceptions.MoneyCantBeNegative;
+import lombok.Getter;
 
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
-import java.text.NumberFormat;
 import java.util.Locale;
 
 public class Money {
+    @Getter
     private final BigDecimal amount;
     private final String currency = "PLN";
 
@@ -17,10 +18,6 @@ public class Money {
             throw new MoneyCantBeNegative("Amount cannot be negative");
         }
         this.amount = amount;
-    }
-
-    public BigDecimal getAmount() {
-        return amount;
     }
 
     public static Money of(String amount) {
