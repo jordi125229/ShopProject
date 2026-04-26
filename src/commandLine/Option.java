@@ -1,5 +1,8 @@
 package commandLine;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 public enum Option {
     CREATE_SMARTPHONE(1, "Creating smartphone"),
     CREATE_COMPUTER(2, "Creating computer"),
@@ -34,10 +37,10 @@ public enum Option {
     }
 
     public static void printOptions() {
-        System.out.println("Choose option by using numbers: ");
+        log.info("Choose option by using numbers: ");
         Option[] values = Option.values();
         for (Option value : values) {
-            System.out.println(value.optionNumber + "- " + value + "- " + value.description);
+            log.info("{}- {}- {}", value.optionNumber, value, value.description);
         }
     }
 }

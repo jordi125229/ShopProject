@@ -1,6 +1,7 @@
 package test;
 
 import client.Client;
+import lombok.extern.slf4j.Slf4j;
 import manager.CartManager;
 import manager.InvoiceManager;
 import manager.OrderManager;
@@ -19,7 +20,7 @@ import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
-
+@Slf4j
 public class GeneralTest {
     public static void main(String[] args) {
         ProductRepository repository = new ProductRepository();
@@ -36,38 +37,43 @@ public class GeneralTest {
         addProductFromMagazineToCart(cartManager, all, cart);
         createOrderAndInvoice(orderManager, cart, invoiceManager);
         List<Order> allOrders = orderRepository.findAll();
-        System.out.println(allOrders);
+        log.info(allOrders.toString());
 
     }
 
     private static void createOrderAndInvoice(OrderManager orderManager, Cart cart, InvoiceManager invoiceManager) {
-        Order order = (Order) orderManager.order(cart, new Client("Piotr", "Nowak", "012310101"), ZonedDateTime.now());
-        System.out.println(order);
-//        System.out.println("Cart after ordering (empty): " + cart); -> to be checked, I want to clear the cart after ordering creation
+        Order order = null;
+        try {
+            order = orderManager.order(cart, new Client("Piotr", "Nowak", "012310101"), ZonedDateTime.now()).get();
+        } catch (InterruptedException | ExecutionException e) {
+            throw new RuntimeException(e);
+        }
+        log.info(String.valueOf(order));
+//        log.info("Cart after ordering (empty): " + cart); -> to be checked, I want to clear the cart after ordering creation
         Invoice invoice = null;
         try {
             invoice = invoiceManager.toInvoice(order).get();
         } catch (InterruptedException | ExecutionException e) {
             throw new RuntimeException(e);
         }
-        System.out.println(invoice);
+        log.info(String.valueOf(invoice));
     }
 
     private static void addProductFromMagazineToCart(CartManager cartManager, Map<String, Product> all, Cart cart) {
         cartManager.addProductToCart("430", 2);
-        System.out.println("Magazine after cart creation (look at quantity): " + all);
-        System.out.println("Cart: " + cart);
+        log.info("Magazine after cart creation (look at quantity): " + all);
+        log.info("Cart: " + cart);
     }
 
     private static Map<String, Product> getAndPrintAllProductFromMagazine(ProductRepository repository) {
         Map<String, Product> all = repository.findAll();
-        System.out.println("Magazine: " + all + '\n');
+        log.info("Magazine: " + all + '\n');
         return all;
     }
 
     private static void createSmartphone(ProductManager productManager, Computer lenovo) {
         productManager.createSmartphone("111231", "Iphone", Money.of("4900"), 3);
-        System.out.println(lenovo);
+        log.info(String.valueOf(lenovo));
     }
 
     private static Computer createAndConfigureComputer(ProductManager productManager) {

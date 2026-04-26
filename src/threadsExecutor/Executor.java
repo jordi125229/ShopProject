@@ -1,11 +1,13 @@
 package threadsExecutor;
 
+import lombok.extern.slf4j.Slf4j;
 import order.Order;
 import order.OrderStatus;
 import payment.Invoice;
 
 import java.util.concurrent.*;
 
+@Slf4j
 public class Executor {
     private final ExecutorService executorService;
 
@@ -24,7 +26,7 @@ public class Executor {
     }
 
     public void processInvoice(Invoice invoice) {
-        System.out.println("Invoice " + invoice.getInvoiceNumber() + " is being finalized");
+        log.info("Invoice {} is being finalized", invoice.getInvoiceNumber());
         processing();
     }
 
