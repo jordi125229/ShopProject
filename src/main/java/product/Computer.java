@@ -1,9 +1,11 @@
 package product;
 
+import lombok.Getter;
 import lombok.ToString;
 import lombok.experimental.SuperBuilder;
 
 @SuperBuilder
+@Getter
 @ToString(callSuper = true)
 public class Computer extends Product {
     private String processor;

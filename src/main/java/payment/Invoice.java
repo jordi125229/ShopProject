@@ -13,5 +13,4 @@ public class Invoice {
     private Client client;
     private Money total;
     private String itemDescription;
-
 }
