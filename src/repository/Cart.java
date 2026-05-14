@@ -2,7 +2,7 @@ package repository;
 
 import exceptions.NoProductException;
 import product.Product;
-import product.productToCart.ProductToCart;
+import product.ProductToCart;
 
 import java.util.*;
 
