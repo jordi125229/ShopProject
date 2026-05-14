@@ -261,11 +261,11 @@ public String getString();
 ### Console Printer
 
 `ConsolePrinter` is the class dedicated to printing information in the console. It's the only class when we use API
-method System.out.println():
+method log.info():
 
 ```java
 public void printLine(String text) {
-    System.out.println(text);
+    log.info(text);
 }
 ```
 

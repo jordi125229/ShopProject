@@ -1,6 +1,7 @@
 package test;
 
 import client.Client;
+import lombok.extern.slf4j.Slf4j;
 import manager.CartManager;
 import manager.OrderManager;
 import manager.ProductManager;
@@ -12,11 +13,13 @@ import repository.Cart;
 import repository.OrderRepository;
 import repository.ProductRepository;
 import threadsExecutor.Executor;
+
 import java.time.ZonedDateTime;
 import java.util.Collection;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
+@Slf4j
 public class DiscountsTest {
     public static void main(String[] args) {
         ProductRepository productRepository = new ProductRepository();
@@ -33,18 +36,18 @@ public class DiscountsTest {
         productManager.createSmartphone("0012", "Iphone 15", Money.of("5000"), 10);
         Client testClient = new Client("Jakub", "Nowak", "02930194810");
         Map<String, Product> allProducts = productRepository.findAll();
-        System.out.println(allProducts);
+        log.info(String.valueOf(allProducts));
         cartManager.addProductToCart("0012", 4);
-        System.out.println(allProducts);
+        log.info(String.valueOf(allProducts));
         Collection<ProductToCart> allProductsInCart = cart.findAll();
-        System.out.println(allProductsInCart);
+        log.info(String.valueOf(allProductsInCart));
         Order order;
         try {
             order = orderManager.order(cart, testClient, ZonedDateTime.now()).get();
         } catch (InterruptedException | ExecutionException e) {
             throw new RuntimeException(e);
         }
-        System.out.println(order);
+        log.info(String.valueOf(order));
         executor.shutdown();
     }
 }

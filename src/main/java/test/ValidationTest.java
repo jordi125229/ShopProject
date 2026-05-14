@@ -4,7 +4,9 @@ import client.Client;
 import commandLine.ConsolePrinter;
 import commandLine.DataReader;
 import dataValidation.Validator;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class ValidationTest {
     private DataReader dataReader = new DataReader();
     private ConsolePrinter consolePrinter = new ConsolePrinter();
@@ -13,7 +15,7 @@ public class ValidationTest {
     public static void main(String[] args) {
         ValidationTest test = new ValidationTest();
         Client clientByProvidingData = test.getClientByProvidingData();
-        System.out.println(clientByProvidingData);
+        log.info(String.valueOf(clientByProvidingData));
     }
 
     private Client getClientByProvidingData() {

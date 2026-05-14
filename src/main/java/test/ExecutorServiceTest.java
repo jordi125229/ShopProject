@@ -1,6 +1,7 @@
 package test;
 
 import client.Client;
+import lombok.extern.slf4j.Slf4j;
 import manager.CartManager;
 import manager.OrderManager;
 import manager.ProductManager;
@@ -10,14 +11,13 @@ import repository.Cart;
 import repository.OrderRepository;
 import repository.ProductRepository;
 import threadsExecutor.Executor;
-
 import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
-
+@Slf4j
 public class ExecutorServiceTest {
     public static void main(String[] args) {
         threadsTest(3, 100);  //34080
@@ -49,7 +49,7 @@ public class ExecutorServiceTest {
         testExecutor.shutdown();
         waitForExecutorExecution(testExecutor);
         long end = System.nanoTime();
-        System.out.println("Threads " + threads + ": " + (end - start) / 1_000_000);
+        log.info("Threads " + threads + ": " + (end - start) / 1_000_000);
     }
 
     private static void waitForExecutorExecution(Executor testExecutor) {

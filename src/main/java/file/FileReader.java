@@ -1,6 +1,7 @@
 package file;
 
 
+import lombok.extern.slf4j.Slf4j;
 import manager.ProductManager;
 import money.Money;
 
@@ -10,7 +11,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
-
+@Slf4j
 public class FileReader {
     private static final Path FILE_PATH_ORDERS = Paths.get("src/dataBase/orders.txt");
     private static final Path FILE_PATH_INVOICES = Paths.get("src/dataBase/invoices.txt");
@@ -21,7 +22,7 @@ public class FileReader {
             List<String> lines = Files.readAllLines(FILE_PATH_ORDERS);
             lines.forEach(System.out::println);
         } catch (IOException e) {
-            System.out.println("Can't read orders");
+            log.info("Can't read orders");
         }
     }
 
@@ -41,7 +42,7 @@ public class FileReader {
                         }
                     });
         } catch (IOException e) {
-            System.out.println("Can't import from file!");
+            log.info("Can't import from file!");
         }
     }
 
@@ -50,7 +51,7 @@ public class FileReader {
             List<String> lines = Files.readAllLines(FILE_PATH_INVOICES);
             lines.forEach(System.out::println);
         } catch (IOException e) {
-            System.out.println("Can't' read invoices from file: " + FILE_PATH_INVOICES + ". File doesn't exist");
+            log.info("Can't' read invoices from file: " + FILE_PATH_INVOICES + ". File doesn't exist");
         }
     }
 }

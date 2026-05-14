@@ -1,6 +1,7 @@
 package test;
 
 import client.Client;
+import lombok.extern.slf4j.Slf4j;
 import manager.CartManager;
 import manager.OrderManager;
 import manager.ProductManager;
@@ -16,7 +17,7 @@ import threadsExecutor.Executor;
 import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
-
+@Slf4j
 public class UnitTest {
     public static void main(String[] args) {
         ProductRepository repository = new ProductRepository();
@@ -38,56 +39,56 @@ public class UnitTest {
     }
 
     private static void createSmartfonTest(ProductManager productManager) {
-        System.out.println("Test2: creating smartfon");
+        log.info("Test2: creating smartfon");
         Smartphone smartfon1 = productManager.createSmartphone("005", "samsung", Money.of("4600"), 10);
-        System.out.println(smartfon1 + "\n");
+        log.info(smartfon1 + "\n");
     }
 
     private static void createComputerTest(ProductManager productManager) {
-        System.out.println("Test1: creating computer");
+        log.info("Test1: creating computer");
         Computer computer1 = productManager.createComputer("014", "HP", Money.of("2800"), 5);
-        System.out.println(computer1 + "\n");
+        log.info(computer1 + "\n");
     }
 
     private static void computerConfigurationTest(ProductManager productManager) {
-        System.out.println("Test3: configuration of computer");
+        log.info("Test3: configuration of computer");
         Computer computer2 = productManager.createComputer("014", "HP", Money.of("2800"), 5);
-        System.out.println(computer2);
+        log.info(String.valueOf(computer2));
         computer2.configuration("AMD", 16);
-        System.out.println(computer2 + "\n");
+        log.info(computer2 + "\n");
     }
 
     private static void testOfAddingProductsToMap(ProductRepository repository) {
-        System.out.println("Test 4: how map works");
+        log.info("Test 4: how map works");
         String string = repository.findAll().toString();
-        System.out.println(string + "\n");
+        log.info(string + "\n");
     }
 
     private static void testOfRemovingFromMap(ProductManager productManager, ProductRepository repository) {
-        System.out.println("Test 5: removing from map");
+        log.info("Test 5: removing from map");
         productManager.deleteProduct("014");
         String string = repository.findAll().toString();
-        System.out.println(string + "\n");
+        log.info(string + "\n");
     }
 
     private static void testOfCartWorking(ProductRepository repository, CartManager cartManager, Cart cart) {
-        System.out.println("Test 6: cart creation");
+        log.info("Test 6: cart creation");
         String string = repository.findAll().toString();
-        System.out.println(string);
+        log.info(string);
         cartManager.addProductToCart("005", 1);
         cart.findAll().forEach(System.out::println);
-        System.out.println();
+        log.info("\n");
     }
 
     private static void cartClearingTest(Cart cart) {
-        System.out.println("Test 7: cart's clearing");
+        log.info("Test 7: cart's clearing");
         cart.clear();
         cart.findAll().forEach(System.out::println);
-        System.out.println();
+        log.info("\n");
     }
 
     private static void orderCreateTest(CartManager cartManager, OrderManager orderManager, Cart cart, ProductRepository repository) {
-        System.out.println("Test 8: Ordering");
+        log.info("Test 8: Ordering");
         cartManager.addProductToCart("005", 2);
         cartManager.addProductToCart("014", 5);
         Order order = null;
@@ -96,14 +97,14 @@ public class UnitTest {
         } catch (InterruptedException | ExecutionException e) {
             throw new RuntimeException(e);
         }
-        System.out.println(order);
+        log.info(String.valueOf(order));
         String string = repository.findAll().toString();
-        System.out.println("Warehouse after ordering: " + "\n" + string + "\n");
+        log.info("Warehouse after ordering: " + "\n" + string + "\n");
     }
 
     private static void printAllOrdersTest(OrderRepository orderRepository) {
-        System.out.println("Test 9: Orders printing");
+        log.info("Test 9: Orders printing");
         List<Order> allOrders = orderRepository.findAll();
-        System.out.println(allOrders);
+        log.info(String.valueOf(allOrders));
     }
 }
