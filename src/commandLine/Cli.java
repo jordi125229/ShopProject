@@ -18,10 +18,12 @@ import repository.Cart;
 import repository.InvoiceRepository;
 import repository.OrderRepository;
 import repository.ProductRepository;
-import threadsExecutor.OrderExecutor;
+import threadsExecutor.Executor;
 
 import java.time.ZonedDateTime;
 import java.util.*;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Executors;
 
 public class Cli {
     private final DataReader dataReader;
@@ -36,7 +38,7 @@ public class Cli {
     private final ProductManager productManager;
     private final FileReader fileReader;
     private final FileWriter fileWriter;
-    private final OrderExecutor orderExecutor;
+    private final Executor orderExecutor;
 
     public Cli() {
         this.dataReader = new DataReader();
@@ -45,7 +47,7 @@ public class Cli {
         this.cart = new Cart();
         this.cartManager = new CartManager(cart, productRepository);
         this.orderRepository = new OrderRepository();
-        this.orderExecutor = new OrderExecutor();
+        this.orderExecutor = new Executor(3);
         this.orderManager = new OrderManager(orderRepository, cartManager, orderExecutor);
         this.invoiceManager = new InvoiceManager(orderExecutor);
         this.invoiceRepository = new InvoiceRepository();
@@ -211,11 +213,11 @@ public class Cli {
         try {
             cart.findAll();
             Client client = getClientByProvidingData();
-            Order order = orderManager.order(cart, client, ZonedDateTime.now());
+            Order order = orderManager.order(cart, client, ZonedDateTime.now()).get();
             consolePrinter.printLine("Order created: " + order);
             fileWriter.saveOrderToFile(order);
             cart.clearing();
-        } catch (NoProductException e) {
+        } catch (NoProductException | InterruptedException | ExecutionException e) {
             System.out.println(e.getMessage());
         }
     }

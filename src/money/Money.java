@@ -3,6 +3,10 @@ package money;
 import exceptions.MoneyCantBeNegative;
 
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.text.NumberFormat;
+import java.util.Locale;
 
 public class Money {
     private final BigDecimal amount;
@@ -31,8 +35,15 @@ public class Money {
         return new Money(this.amount.multiply(BigDecimal.valueOf(quantity)));
     }
 
+    public Money multiply(BigDecimal rabat) {
+        return new Money(this.amount.multiply(rabat));
+    }
+
     @Override
     public String toString() {
-        return "Price " + amount + currency;
+        DecimalFormatSymbols symbols = new DecimalFormatSymbols(Locale.GERMANY); // tu LLMem robilem to
+        symbols.setGroupingSeparator('.');
+        DecimalFormat decimalFormat = new DecimalFormat("#,###", symbols);
+        return "Price " + decimalFormat.format(amount) + currency;
     }
 }

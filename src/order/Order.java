@@ -15,14 +15,14 @@ public class Order {
     private String id;
     private OrderStatus orderStatus;
 
-    public ZonedDateTime getDate() {
-        return date;
-    }
-
     public Order(Client client, List<ProductToCart> products, ZonedDateTime date) {
         this.client = client;
         this.products = products;
         this.date = date;
+    }
+
+    public ZonedDateTime getDate() {
+        return date;
     }
 
     public void setOrderStatus(OrderStatus orderStatus) {

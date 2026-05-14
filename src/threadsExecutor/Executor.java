@@ -4,18 +4,24 @@ import order.Order;
 import order.OrderStatus;
 import payment.Invoice;
 
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
+import java.util.concurrent.*;
 
-public class OrderExecutor {
-    ExecutorService executorService = Executors.newFixedThreadPool(3);
+public class Executor {
+    ExecutorService executorService;
+
+    public Executor(int threadsNumber) {
+        this.executorService = Executors.newFixedThreadPool(threadsNumber);
+    }
+
+    public ExecutorService getExecutorService() {
+        return executorService;
+    }
 
     public Future<?> orderProcessing(Order order) {
         return executorService.submit(() -> {
             order.setOrderStatus(OrderStatus.PENDING);
-            System.out.println("Order " + order.getId() + " is being finalized");
             processing();
+            System.out.println("Order " + order.getId() + " is being finalized");
             order.setOrderStatus(OrderStatus.FINALIZED);
         });
     }
@@ -27,10 +33,9 @@ public class OrderExecutor {
         });
     }
 
-
     private static void processing() {
         try {
-            Thread.sleep(3000);
+            Thread.sleep(1000);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }

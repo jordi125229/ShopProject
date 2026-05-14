@@ -28,3 +28,21 @@ Client: Piotr
 Total: Price 6800PLN
 Date: 2026-04-10T17:08:43.835441300
 Description: [Product{ id 012; dell; Price 3400PLN, quantity 2}]
+=== INVOICE ===
+Number: INV-<2026-04-13>-<13353>
+Client: Piotr 
+Total: Price 4679.999999999999826805208158475579693913459777832031250000PLN
+Date: 2026-04-13T23:28:46.058437400
+Description: [Product{ id 0030; Iphone 15; Price 1169.999999999999956701302039618894923478364944458007812500PLN, quantity 4}]
+=== INVOICE ===
+Number: INV-<2026-04-13>-<13689>
+Client: Mariusz
+Total: Price 13260.00PLN
+Date: 2026-04-13T23:34:26.711570400
+Description: [Product{ id 0030; Iphone 15; Price 3315.00PLN, quantity 4}]
+=== INVOICE ===
+Number: INV-<2026-04-14>-<14481>
+Client: Mariusz
+Total: Price 8.453PLN
+Date: 2026-04-14T11:51:03.919515300
+Description: [Product{ id 0030; Iphone 15; Price 3.315PLN, quantity 3}]

@@ -13,12 +13,12 @@ import product.Product;
 import repository.Cart;
 import repository.OrderRepository;
 import repository.ProductRepository;
-import threadsExecutor.OrderExecutor;
+import threadsExecutor.Executor;
 
-import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Executors;
 
 public class GeneralTest {
     public static void main(String[] args) {
@@ -26,7 +26,7 @@ public class GeneralTest {
         ProductManager productManager = new ProductManager(repository);
         Cart cart = new Cart();
         CartManager cartManager = new CartManager(cart, repository);
-        OrderExecutor orderExecutor = new OrderExecutor();
+        Executor orderExecutor = new Executor(3);
         InvoiceManager invoiceManager = new InvoiceManager(orderExecutor);
         OrderRepository orderRepository = new OrderRepository();
         OrderManager orderManager = new OrderManager(orderRepository, cartManager, orderExecutor);
@@ -35,14 +35,13 @@ public class GeneralTest {
         Map<String, Product> all = getAndPrintAllProductFromMagazine(repository);
         addProductFromMagazineToCart(cartManager, all, cart);
         createOrderAndInvoice(orderManager, cart, invoiceManager);
-
         List<Order> allOrders = orderRepository.findAll();
         System.out.println(allOrders);
 
     }
 
     private static void createOrderAndInvoice(OrderManager orderManager, Cart cart, InvoiceManager invoiceManager) {
-        Order order = orderManager.order(cart, new Client("Piotr", "Nowak", "012310101"), ZonedDateTime.now());
+        Order order = (Order) orderManager.order(cart, new Client("Piotr", "Nowak", "012310101"), ZonedDateTime.now());
         System.out.println(order);
 //        System.out.println("Cart after ordering (empty): " + cart); -> to be checked, I want to clear the cart after ordering creation
         Invoice invoice = invoiceManager.toInvoice(order);

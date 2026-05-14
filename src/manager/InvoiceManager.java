@@ -2,7 +2,7 @@ package manager;
 
 import order.Order;
 import payment.Invoice;
-import threadsExecutor.OrderExecutor;
+import threadsExecutor.Executor;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -12,9 +12,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class InvoiceManager {
-    private OrderExecutor orderExecutor;
+    private Executor orderExecutor;
 
-    public InvoiceManager(OrderExecutor orderExecutor) {
+    public InvoiceManager(Executor orderExecutor) {
         this.orderExecutor = orderExecutor;
     }
 
