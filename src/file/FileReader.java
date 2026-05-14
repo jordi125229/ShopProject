@@ -1,7 +1,13 @@
 package file;
 
 
+import manager.ProductManager;
+import money.Money;
+import product.Computer;
+import product.Smartphone;
+
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -10,6 +16,7 @@ import java.util.List;
 public class FileReader {
     private static final Path FILE_PATH_ORDERS = Paths.get("orders.txt");
     private static final Path FILE_PATH_INVOICES = Paths.get("invoices.txt");
+    private static final Path FILE_PATH_PRODUCTS = Paths.get("products.txt");
 
     public void printOrdersFromFile() {
         try {
@@ -20,12 +27,32 @@ public class FileReader {
         }
     }
 
+    public void importComputersFromFile(ProductManager productManager) {
+        try {
+            List<String> lines = Files.readAllLines(FILE_PATH_PRODUCTS);
+            lines.stream().map(line -> line.split(","))
+                    .forEach(variable -> {
+                        String electronicType = variable[0];
+                        switch (electronicType) {
+                            case "Computer" -> productManager.createComputer(variable[1], variable[2],
+                                    new Money(new BigDecimal(variable[4])), Integer.parseInt(variable[3]));
+                            case "Smartphone" -> productManager.createSmartphone(variable[1], variable[2],
+                                    new Money(new BigDecimal(variable[4])), Integer.parseInt(variable[3]));
+                            default -> productManager.createElectronic(variable[1], variable[2],
+                                    new Money(new BigDecimal(variable[4])), Integer.parseInt(variable[3]));
+                        }
+                    });
+        } catch (IOException e) {
+            System.out.println("Can't import from file!");
+        }
+    }
+
     public void printAllInvoices() {
         try {
             List<String> lines = Files.readAllLines(FILE_PATH_INVOICES);
             lines.forEach(System.out::println);
         } catch (IOException e) {
-            System.out.println("Can't' read invoices");
+            System.out.println("Can't' read invoices from file: " + FILE_PATH_INVOICES + ". File doesn't exist");
         }
     }
 }

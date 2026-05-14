@@ -1,6 +1,5 @@
 package manager;
 
-import commandLine.DataReader;
 import exceptions.NegativeQuantityException;
 import exceptions.NoProductException;
 import money.Money;
@@ -26,7 +25,6 @@ public class ProductManager {
 
     public Smartphone createSmartphone(String id, String name, Money price, int quantity) {
         quantityValidation(quantity);
-
         Smartphone smartphone = new Smartphone(id, name, price, quantity);
         productRepository.add(smartphone);
         return smartphone;

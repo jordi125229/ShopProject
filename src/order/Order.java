@@ -13,6 +13,7 @@ public class Order {
     private Money totalPrice;
     private ZonedDateTime date;
     private String id;
+    private OrderStatus orderStatus;
 
     public ZonedDateTime getDate() {
         return date;
@@ -22,6 +23,10 @@ public class Order {
         this.client = client;
         this.products = products;
         this.date = date;
+    }
+
+    public void setOrderStatus(OrderStatus orderStatus) {
+        this.orderStatus = orderStatus;
     }
 
     public List<ProductToCart> getProducts() {
@@ -55,14 +60,7 @@ public class Order {
                 ", products=" + products +
                 ", totalPrice=" + totalPrice +
                 ", date=" + date +
-                ", id='" + id + '\'' +
+                ", id='" + id + '\'' + orderStatus +
                 '}';
-    }
-
-    public String serialize() {
-        return products.stream()
-                .map(p -> p.getProduct().getName() + "," + p.getProduct().getPrice() + "," + p.getQuantity())
-                .reduce((a, b) -> a + b)
-                .orElse("");
     }
 }

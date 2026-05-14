@@ -11,8 +11,8 @@ import java.math.BigDecimal;
 import java.util.Collection;
 
 public class CartManager {
-    private Cart cartRepository;
-    private ProductRepository productRepository;
+    private final Cart cartRepository;
+    private final ProductRepository productRepository;
 
     public CartManager(Cart cartRepository, ProductRepository productRepository) {
         this.cartRepository = cartRepository;

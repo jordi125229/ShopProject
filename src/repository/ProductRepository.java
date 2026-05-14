@@ -6,7 +6,7 @@ import product.Product;
 import java.util.*;
 
 public class ProductRepository implements IProductsRepository {
-    private Map<String, Product> products;
+    private final Map<String, Product> products;
 
     public ProductRepository() {
         this.products = new HashMap<>();
@@ -24,9 +24,6 @@ public class ProductRepository implements IProductsRepository {
 
     @Override
     public Map<String, Product> findAll() {
-        if (products.isEmpty()) {
-            throw new NoProductException("No products");
-        }
         return products;
     }
 

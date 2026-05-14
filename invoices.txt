@@ -1,13 +1,30 @@
 === INVOICE ===
-Number: INV-<2026-04-07>-<07482>
-Client: Mariusz
-Total: Price 9899PLN
-Date: 2026-04-07T19:37:45.862463800
-Description: [Product{ id 1210; Iphone 17; Price 3999PLN, quantity 1}, Product{ id Macbook air; Macbook air 15; Price 5900PLN, quantity 1}]
-
+Number: INV-<2026-04-10>-<10732>
+Client: Mariola
+Total: Price 8000PLN
+Date: 2026-04-10T07:54:43.502102800
+Description: [Product{ id 093; Samsung; Price 4000PLN, quantity 2}]
 === INVOICE ===
-Number: INV-<2026-04-07>-<07821>
+Number: INV-<2026-04-10>-<10564>
+Client: Adam
+Total: Price 34000PLN
+Date: 2026-04-10T07:56:05.043630800
+Description: [Product{ id 012; dell; Price 3400PLN, quantity 10}]
+=== INVOICE ===
+Number: INV-<2026-04-10>-<10839>
+Client: Piot
+Total: Price 34000PLN
+Date: 2026-04-10T08:10:09.857429700
+Description: [Product{ id 012; dell; Price 3400PLN, quantity 10}]
+=== INVOICE ===
+Number: INV-<2026-04-10>-<10813>
+Client: Marcin
+Total: Price 40000PLN
+Date: 2026-04-10T08:35:07.599722800
+Description: [Product{ id 093; Samsung; Price 4000PLN, quantity 10}]
+=== INVOICE ===
+Number: INV-<2026-04-10>-<10433>
 Client: Piotr
-Total: Price 6400PLN
-Date: 2026-04-07T19:42:12.950626400
-Description: [Product{ id 1321; Iphone 16 ; Price 3200PLN, quantity 2}]
+Total: Price 6800PLN
+Date: 2026-04-10T17:08:43.835441300
+Description: [Product{ id 012; dell; Price 3400PLN, quantity 2}]

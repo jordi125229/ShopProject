@@ -2,13 +2,22 @@ package manager;
 
 import order.Order;
 import payment.Invoice;
+import threadsExecutor.OrderExecutor;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class InvoiceManager {
+    private OrderExecutor orderExecutor;
+
+    public InvoiceManager(OrderExecutor orderExecutor) {
+        this.orderExecutor = orderExecutor;
+    }
+
     public Invoice toInvoice(Order order) {
         Invoice invoice = new Invoice();
         String counter = extractCounter(order.getId());
@@ -18,13 +27,18 @@ public class InvoiceManager {
         invoice.setClient(order.getClient());
         invoice.setTotal(order.getTotalPrice());
         invoice.setItemDescription(order.getProducts().toString());
+        Future<?> futureInvoice = orderExecutor.invoiceProcessing(invoice);
+        try {
+            futureInvoice.get();
+        } catch (InterruptedException | ExecutionException e) {
+            throw new RuntimeException(e);
+        }
         return invoice;
     }
 
     private String gettingDate(Order order) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        String date = order.getDate().format(formatter);
-        return date;
+        return order.getDate().format(formatter);
     }
 
     private String extractCounter(String bookingId) {

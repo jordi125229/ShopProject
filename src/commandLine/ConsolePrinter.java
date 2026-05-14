@@ -20,13 +20,13 @@ public class ConsolePrinter {
         }
     }
 
-    public void printInvoices(List<Invoice> invoices) {
-        printLine(invoices.toString());
-    }
+//    public void printInvoices(List<Invoice> invoices) {
+//        printLine(invoices.toString());
+//    }
 
-    public void printOrders(List<Order> orders) {
-        printLine(orders.toString());
-    }
+//    public void printOrders(List<Order> orders) {
+//        printLine(orders.toString());
+//    }
 
     public void printCarts(Collection<ProductToCart> productsBucket) {
         printLine(productsBucket.toString());
