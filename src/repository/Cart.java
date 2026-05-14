@@ -1,7 +1,5 @@
 package repository;
 
-import exceptions.NoProductException;
-import exceptions.NoProductInTheCart;
 import product.Product;
 import product.ProductToCart;
 

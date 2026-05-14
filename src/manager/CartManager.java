@@ -1,6 +1,7 @@
 package manager;
 
 import exceptions.NoProductException;
+import lombok.AllArgsConstructor;
 import money.Money;
 import product.Product;
 import product.ProductToCart;
@@ -11,16 +12,12 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Collection;
 
+@AllArgsConstructor
 public class CartManager {
     private final Cart cartRepository;
     private final ProductRepository productRepository;
     private static final String DISCOUNT_MULTIPLAYER = "0.85";
     private static final int DISCOUNT_THRESHOLD = 3;
-
-    public CartManager(Cart cartRepository, ProductRepository productRepository) {
-        this.cartRepository = cartRepository;
-        this.productRepository = productRepository;
-    }
 
     public void addProductToCart(String id, int quantity) {
         Product product = productRepository.findProductById(id).orElseThrow(() -> new IllegalArgumentException("Product wasn't found!"));

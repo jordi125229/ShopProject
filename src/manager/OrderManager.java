@@ -1,6 +1,7 @@
 package manager;
 
 import client.Client;
+import lombok.AllArgsConstructor;
 import order.Order;
 import product.ProductToCart;
 import repository.Cart;
@@ -14,21 +15,20 @@ import java.util.List;
 import java.util.Random;
 import java.util.concurrent.Future;
 
+@AllArgsConstructor
 public class OrderManager {
     private final OrderRepository orderRepository;
     private final CartManager cartManager;
     private final Executor orderExecutor;
 
-    public OrderManager(OrderRepository orderRepository, CartManager cartManager, Executor orderExecutor) {
-        this.orderRepository = orderRepository;
-        this.cartManager = cartManager;
-        this.orderExecutor = orderExecutor;
-    }
-
     public Future<Order> order(Cart cart, Client client, ZonedDateTime start) {
         String date = start.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
         List<ProductToCart> productsCopy = new ArrayList<>(cart.findAll());
-        Order order = new Order(client, productsCopy, start);
+        Order order = Order.builder()
+                .client(client)
+                .products(productsCopy)
+                .date(start)
+                .build();
         order.setId("BK-<" + date + counterCreation() + ">");
         order.setTotalPrice(cartManager.calculateTotalPrice());
         return orderExecutor.getExecutorService().submit(() -> {

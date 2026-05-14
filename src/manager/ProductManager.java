@@ -2,6 +2,7 @@ package manager;
 
 import exceptions.NegativeQuantityException;
 import exceptions.NoProductException;
+import lombok.AllArgsConstructor;
 import money.Money;
 import product.Computer;
 import product.Electronics;
@@ -9,30 +10,40 @@ import product.Product;
 import product.Smartphone;
 import repository.ProductRepository;
 
+@AllArgsConstructor
 public class ProductManager {
     private final ProductRepository productRepository;
 
-    public ProductManager(ProductRepository productRepository) {
-        this.productRepository = productRepository;
-    }
-
     public Computer createComputer(String id, String name, Money price, int quantity) {
         quantityValidation(quantity);
-        Computer computer = new Computer(id, name, price, quantity);
+        Computer computer = Computer.builder()
+                .id(id)
+                .name(name)
+                .price(price)
+                .quantity(quantity)
+                .build();
         productRepository.add(computer);
         return computer;
     }
 
     public Smartphone createSmartphone(String id, String name, Money price, int quantity) {
         quantityValidation(quantity);
-        Smartphone smartphone = new Smartphone(id, name, price, quantity);
+        Smartphone smartphone = Smartphone.builder()
+                .id(id)
+                .name(name)
+                .price(price)
+                .quantity(quantity).build();
         productRepository.add(smartphone);
         return smartphone;
     }
 
     public Electronics createElectronic(String id, String name, Money price, int quantity) {
         quantityValidation(quantity);
-        Electronics electronics = new Electronics(id, name, price, quantity);
+        Electronics electronics = Electronics.builder()
+                .id(id)
+                .name(name)
+                .price(price)
+                .quantity(quantity).build();
         productRepository.add(electronics);
         return electronics;
     }

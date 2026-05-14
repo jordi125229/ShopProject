@@ -1,22 +1,19 @@
 package manager;
 
+import lombok.AllArgsConstructor;
 import order.Order;
 import payment.Invoice;
 import threadsExecutor.Executor;
 
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+@AllArgsConstructor
 public class InvoiceManager {
     private final Executor invoiceExecutor;
-
-    public InvoiceManager(Executor orderExecutor) {
-        this.invoiceExecutor = orderExecutor;
-    }
 
     public Future<Invoice> toInvoice(Order order) {
         Invoice invoice = new Invoice();

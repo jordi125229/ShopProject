@@ -1,3 +1,4 @@
+Electronic,4430,Headphones airpods,8,2000
 Computer,9940,LG,5,4900
 Smartphone,0030,Iphone 15,3,3315.00
 Computer,0129,Dell ,14,3900
