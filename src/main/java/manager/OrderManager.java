@@ -29,7 +29,7 @@ public class OrderManager {
                 .products(productsCopy)
                 .date(start)
                 .build();
-        order.setId("BK-<" + date + counterCreation() + ">");
+        order.setId("BK-<" + date + ">-<" + counterCreation() + ">");
         order.setTotalPrice(cartManager.calculateTotalPrice());
         return orderExecutor.getExecutorService().submit(() -> {
             orderExecutor.processOrder(order);

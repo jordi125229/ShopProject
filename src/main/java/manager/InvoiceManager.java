@@ -36,7 +36,7 @@ public class InvoiceManager {
     }
 
     private String extractCounter(String bookingId) {
-        Pattern pattern = Pattern.compile("BK-<.+-(\\d+)>");
+        Pattern pattern = Pattern.compile("BK-<.+>-<(\\d+)>");
         Matcher matcher = pattern.matcher(bookingId);
         if (matcher.matches()) {
             return matcher.group(1);

@@ -19,9 +19,9 @@ import java.util.Collection;
 import java.util.List;
 
 public class FileWriter {
-    private static final Path FILE_PATH_ORDERS = Paths.get("src/dataBase/orders.txt");
-    private static final Path FILE_PATH_INVOICES = Paths.get("src/dataBase/invoices.txt");
-    private static final Path FILE_PATH_PRODUCTS = Paths.get("src/dataBase/products.txt");
+    private static final Path FILE_PATH_ORDERS = Paths.get("src/main/java//dataBase/orders.txt");
+    private static final Path FILE_PATH_INVOICES = Paths.get("src/main/java/dataBase/invoices.txt");
+    private static final Path FILE_PATH_PRODUCTS = Paths.get("src/main/java/dataBase/products.txt");
 
     public void exportProductsToFile(ProductRepository productRepository) {
         Collection<Product> products = productRepository.findAll().values();

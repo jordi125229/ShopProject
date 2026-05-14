@@ -13,14 +13,14 @@ import java.nio.file.Paths;
 import java.util.List;
 @Slf4j
 public class FileReader {
-    private static final Path FILE_PATH_ORDERS = Paths.get("src/dataBase/orders.txt");
-    private static final Path FILE_PATH_INVOICES = Paths.get("src/dataBase/invoices.txt");
-    private static final Path FILE_PATH_PRODUCTS = Paths.get("src/dataBase/products.txt");
+    private static final Path FILE_PATH_ORDERS = Paths.get("src/main/java/dataBase/orders.txt");
+    private static final Path FILE_PATH_INVOICES = Paths.get("src/main/java/dataBase/invoices.txt");
+    private static final Path FILE_PATH_PRODUCTS = Paths.get("src/main/java/dataBase/products.txt");
 
     public void printOrdersFromFile() {
         try {
             List<String> lines = Files.readAllLines(FILE_PATH_ORDERS);
-            lines.forEach(System.out::println);
+            lines.forEach(log::info);
         } catch (IOException e) {
             log.info("Can't read orders");
         }
@@ -49,7 +49,7 @@ public class FileReader {
     public void printAllInvoices() {
         try {
             List<String> lines = Files.readAllLines(FILE_PATH_INVOICES);
-            lines.forEach(System.out::println);
+            lines.forEach(log::info);
         } catch (IOException e) {
             log.info("Can't' read invoices from file: " + FILE_PATH_INVOICES + ". File doesn't exist");
         }
