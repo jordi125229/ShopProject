@@ -1,8 +1,8 @@
 package product;
 
 public class ProductToCart {
-    private Product product;
-    private int quantity;
+    private final Product product;
+    private final int quantity;
 
     public ProductToCart(Product product, int quantity) {
         if (quantity <= 0) {

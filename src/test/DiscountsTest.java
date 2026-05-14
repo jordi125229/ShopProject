@@ -7,16 +7,15 @@ import manager.ProductManager;
 import money.Money;
 import order.Order;
 import product.Product;
-import product.productToCart.ProductToCart;
+import product.ProductToCart;
 import repository.Cart;
 import repository.OrderRepository;
 import repository.ProductRepository;
 import threadsExecutor.Executor;
-
 import java.time.ZonedDateTime;
 import java.util.Collection;
 import java.util.Map;
-import java.util.concurrent.Executors;
+import java.util.concurrent.ExecutionException;
 
 public class DiscountsTest {
     public static void main(String[] args) {
@@ -39,7 +38,12 @@ public class DiscountsTest {
         System.out.println(allProducts);
         Collection<ProductToCart> allProductsInCart = cart.findAll();
         System.out.println(allProductsInCart);
-        Order order = (Order) orderManager.order(cart, testClient, ZonedDateTime.now());
+        Order order = null;
+        try {
+            order = orderManager.order(cart, testClient, ZonedDateTime.now()).get();
+        } catch (InterruptedException | ExecutionException e) {
+            throw new RuntimeException(e);
+        }
         System.out.println(order);
         executor.shutdown();
     }

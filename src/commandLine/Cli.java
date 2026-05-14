@@ -23,7 +23,6 @@ import threadsExecutor.Executor;
 import java.time.ZonedDateTime;
 import java.util.*;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Executors;
 
 public class Cli {
     private final DataReader dataReader;
@@ -58,7 +57,7 @@ public class Cli {
 
     public void controlLoop() {
         Option option = null;
-        fileReader.importComputersFromFile(productManager);
+        fileReader.importProductsFromFile(productManager);
         do {
             Option.printOptions();
             try {
@@ -69,6 +68,7 @@ public class Cli {
                     case CREATE_COMPUTER -> addComputer();
                     case CREATE_ELECTRONIC -> addElectronic();
                     case LIST_PRODUCTS -> productsPrinter();
+                    case DELETE_ITEM -> deleteItem();
                     case SMARTPHONE_CONFIGURATION -> smartphoneConfiguration();
                     case COMPUTER_CONFIGURATION -> computerConfiguration();
                     case ADD_TO_CART -> addProductToCart();
@@ -89,73 +89,87 @@ public class Cli {
         orderExecutor.shutdown();
     }
 
-    public void addSmartphone() {
+    private void addSmartphone() {
         try {
-            System.out.println("Insert device's id: ");
-            String id = dataReader.getString();
-            System.out.println("Insert device's name: ");
-            String name = dataReader.getString();
-            System.out.println("Insert price: ");
-            String price = dataReader.getString();
-            System.out.println("Insert quantity: ");
-            int quantity = dataReader.getAndReturnInt();
-            Smartphone smartphone = productManager.createSmartphone(id, name, Money.of(price), quantity);
+            String id = getId();
+            String name = getProductName();
+            String price = getProductPrice();
+            int quantity = getProductQuantity();
+            productManager.createSmartphone(id, name, Money.of(price), quantity);
             consolePrinter.printLine("Smartphone created!");
-            fileWriter.saveSmartphoneToFile(smartphone);
         } catch (NegativeQuantityException | MoneyCantBeNegative e) {
-            System.out.println(e.getMessage() + " Please try again!");
+            consolePrinter.printLine(e.getMessage() + " Please try again!");
         }
     }
 
-    public void addComputer() {
+    private void addComputer() {
         try {
-            System.out.println("Insert device's id: ");
-            String id = dataReader.getString();
-            System.out.println("Insert device's name: ");
-            String name = dataReader.getString();
-            System.out.println("Insert price: ");
-            String price = dataReader.getString();
-            System.out.println("Insert quantity: ");
-            int quantity = dataReader.getAndReturnInt();
-            Computer computer = productManager.createComputer(id, name, Money.of(price), quantity);
+            String id = getId();
+            String name = getProductName();
+            String price = getProductPrice();
+            int quantity = getProductQuantity();
+            productManager.createComputer(id, name, Money.of(price), quantity);
             consolePrinter.printLine("Computer created!");
-            fileWriter.saveComputerToFile(computer);
         } catch (NegativeQuantityException | MoneyCantBeNegative e) {
-            System.out.println(e.getMessage() + " Please try again!");
+            consolePrinter.printLine(e.getMessage() + " Please try again!");
         }
     }
 
-    public void addElectronic() {
+    private void deleteItem() {
+        consolePrinter.printLine("Insert product's id to delete:");
+        String productId = dataReader.getString();
+        Product productById = getProductById(productId);
+        productRepository.delete(productById);
+        consolePrinter.printLine("Product deleted!");
+    }
+
+    private int getProductQuantity() {
+        consolePrinter.printLine("Insert quantity: ");
+        return dataReader.getAndReturnInt();
+    }
+
+    private String getProductPrice() {
+        consolePrinter.printLine("Insert price: ");
+        return dataReader.getString();
+    }
+
+    private String getProductName() {
+        consolePrinter.printLine("Insert device's name: ");
+        return dataReader.getString();
+    }
+
+    private String getId() {
+        consolePrinter.printLine("Insert device's id: ");
+        return dataReader.getString();
+    }
+
+    private void addElectronic() {
         try {
-            System.out.println("Insert device's name: ");
-            String id = dataReader.getString();
-            System.out.println("Insert device's name: ");
-            String name = dataReader.getString();
-            System.out.println("Insert price: ");
-            String price = dataReader.getString();
-            System.out.println("Insert quantity: ");
-            int quantity = dataReader.getAndReturnInt();
+            String id = getId();
+            String name = getProductName();
+            String price = getProductPrice();
+            int quantity = getProductQuantity();
             productManager.createElectronic(id, name, Money.of(price), quantity);
             consolePrinter.printLine("Electronic device created!");
         } catch (NegativeQuantityException | MoneyCantBeNegative e) {
-            System.out.println(e.getMessage() + " Please try again!");
+            consolePrinter.printLine(e.getMessage() + " Please try again!");
         }
     }
 
-    public void smartphoneConfiguration() {
+    private void smartphoneConfiguration() {
         try {
-            System.out.println("Insert product's id to configurate.");
+            consolePrinter.printLine("Insert product's id to configurate.");
             String id = dataReader.getString();
             Product product = getProductById(id);
             if (!(product instanceof Smartphone smartphone)) {
                 consolePrinter.printLine("Product is not a smartphone");
                 return;
             }
-            System.out.println("Insert smartphone's color: ");
+            consolePrinter.printLine("Insert smartphone's color: ");
             String color = dataReader.getString();
-            System.out.println("Insert battery capacity: ");
+            consolePrinter.printLine("Insert battery capacity: ");
             int batteryCapacity = dataReader.getAndReturnInt();
-            System.out.println("Insert additional accessory: ");
+            consolePrinter.printLine("Insert additional accessory: ");
             String accessoriesInput = dataReader.getString();
             Set<String> additionalAccessory = Set.of(accessoriesInput);
             smartphone.configuration(color, batteryCapacity, additionalAccessory);
@@ -164,7 +178,7 @@ public class Cli {
         }
     }
 
-    public void computerConfiguration() {
+    private void computerConfiguration() {
         try {
             consolePrinter.printLine("Insert product's id to configurate.");
             String id = dataReader.getString();
@@ -183,7 +197,7 @@ public class Cli {
         }
     }
 
-    public void addProductToCart() {
+    private void addProductToCart() {
         try {
             consolePrinter.printLine("Insert product id: ");
             String productId = dataReader.getString();
@@ -197,32 +211,36 @@ public class Cli {
         }
     }
 
-    public void cartPrinter() {
+    private void cartPrinter() {
         consolePrinter.printCarts(cart.findAll());
     }
 
-    public void productsPrinter() {
+    private void productsPrinter() {
         consolePrinter.printProducts(productRepository.findAll());
     }
 
-    public void ordersPrinter() {
+    private void ordersPrinter() {
         fileReader.printOrdersFromFile();
     }
 
-    public void addOrder() {
+    private void addOrder() {
         try {
+            if (cart.isEmpty()) {
+                consolePrinter.printLine("Cart is empty. Can't create order.");
+                return;
+            }
             cart.findAll();
             Client client = getClientByProvidingData();
             Order order = orderManager.order(cart, client, ZonedDateTime.now()).get();
             consolePrinter.printLine("Order created: " + order);
             fileWriter.saveOrderToFile(order);
-            cart.clearing();
+            cart.clear();
         } catch (NoProductException | InterruptedException | ExecutionException e) {
-            System.out.println(e.getMessage());
+            consolePrinter.printLine(e.getMessage());
         }
     }
 
-    public Client getClientByProvidingData() {
+    private Client getClientByProvidingData() {
         consolePrinter.printLine("Insert client's name: ");
         String clientName = dataReader.getString();
         consolePrinter.printLine("Insert client's lastname: ");
@@ -232,25 +250,27 @@ public class Cli {
         return new Client(clientName, lastName, id);
     }
 
-    public void createInvoice() {
+    private void createInvoice() {
         try {
             consolePrinter.printLine("Insert order's id to create invoice: ");
             String orderId = dataReader.getString();
             Order orderById = orderRepository.findOrderById(orderId);
-            Invoice invoice = invoiceManager.toInvoice(orderById);
+            Invoice invoice = invoiceManager.toInvoice(orderById).get();
             invoiceRepository.addInvoice(invoice);
-            System.out.println("Invoice created: " + invoice);
+            consolePrinter.printLine("Invoice created: " + invoice);
             fileWriter.saveInvoiceToFile(invoice);
         } catch (NoOrderException e) {
-            System.out.println(e.getMessage());
+            consolePrinter.printLine(e.getMessage());
+        } catch (ExecutionException | InterruptedException e) {
+            throw new RuntimeException(e);
         }
     }
 
-    public void invoicePrinter() {
+    private void invoicePrinter() {
         fileReader.printAllInvoices();
     }
 
     private Product getProductById(String id) {
-        return productRepository.findProductById(id).orElseThrow(() -> new NoProductException("Product with id " + id + " not found: " + id));
+        return productRepository.findProductById(id).orElseThrow(() -> new NoProductException("Product with id " + id + " not found"));
     }
 }

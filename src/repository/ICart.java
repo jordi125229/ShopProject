@@ -10,5 +10,5 @@ public interface ICart {
 
     Collection<ProductToCart> findAll();
 
-    void clearing();
+    void clear();
 }

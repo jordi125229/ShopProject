@@ -1,8 +1,6 @@
 package repository;
 
-import exceptions.NoProductException;
 import product.Product;
-
 import java.util.*;
 
 public class ProductRepository implements IProductsRepository {

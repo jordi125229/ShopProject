@@ -3,8 +3,6 @@ package file;
 
 import manager.ProductManager;
 import money.Money;
-import product.Computer;
-import product.Smartphone;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -27,7 +25,7 @@ public class FileReader {
         }
     }
 
-    public void importComputersFromFile(ProductManager productManager) {
+    public void importProductsFromFile(ProductManager productManager) {
         try {
             List<String> lines = Files.readAllLines(FILE_PATH_PRODUCTS);
             lines.stream().map(line -> line.split(","))

@@ -43,7 +43,7 @@ public class ProductManager {
         }
     }
 
-    public void productDeleting(String id) {
+    public void deleteProduct(String id) {
         Product product = productRepository.findProductById(id).orElseThrow(() -> new NoProductException("Product not found"));
         productRepository.delete(product);
     }

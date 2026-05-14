@@ -23,6 +23,7 @@ public class ExecutorServiceTest {
         threadsTest(3, 100);  //34080
 //        threadsTest(10, 100); //10053
     }
+
     private static void threadsTest(int threads, int taskCount) {
         ProductRepository repository = new ProductRepository();
         ProductManager productManager = new ProductManager(repository);
@@ -40,7 +41,7 @@ public class ExecutorServiceTest {
         }
         for (Future<Order> f : futures) {
             try {
-               f.get();
+                f.get();
             } catch (InterruptedException | ExecutionException e) {
                 throw new RuntimeException(e);
             }

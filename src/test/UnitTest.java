@@ -15,7 +15,7 @@ import threadsExecutor.Executor;
 
 import java.time.ZonedDateTime;
 import java.util.List;
-import java.util.concurrent.Executors;
+import java.util.concurrent.ExecutionException;
 
 public class UnitTest {
     public static void main(String[] args) {
@@ -65,20 +65,13 @@ public class UnitTest {
 
     private static void testOfRemovingFromMap(ProductManager productManager, ProductRepository repository) {
         System.out.println("Test 5: removing from map");
-        productManager.productDeleting("014");
+        productManager.deleteProduct("014");
         String string = repository.findAll().toString();
         System.out.println(string + "\n");
     }
 
-//    private static void testOfProductUpdate(ProductManager productManager, ProductRepository repository) {
-//        System.out.println("Test 6: Product update");
-//        productManager.updateProduct("005", "sony", Money.of("3200"), 10);
-//        Optional<Product> productById = repository.findProductById("005");
-//        System.out.println(productById.get() + "\n");
-//    }
-
     private static void testOfCartWorking(ProductRepository repository, CartManager cartManager, Cart cart) {
-        System.out.println("Test 7: cart creation");
+        System.out.println("Test 6: cart creation");
         String string = repository.findAll().toString();
         System.out.println(string);
         cartManager.addProductToCart("005", 1);
@@ -87,24 +80,29 @@ public class UnitTest {
     }
 
     private static void cartClearingTest(Cart cart) {
-        System.out.println("Test 8: cart's clearing");
-        cart.clearing();
+        System.out.println("Test 7: cart's clearing");
+        cart.clear();
         cart.findAll().forEach(System.out::println);
         System.out.println();
     }
 
     private static void orderCreateTest(CartManager cartManager, OrderManager orderManager, Cart cart, ProductRepository repository) {
-        System.out.println("Test 9: Ordering");
+        System.out.println("Test 8: Ordering");
         cartManager.addProductToCart("005", 2);
         cartManager.addProductToCart("014", 5);
-        Order order = (Order) orderManager.order(cart, new Client("Piotr", "Nowak", "010311041"), ZonedDateTime.now());
+        Order order = null;
+        try {
+            order = orderManager.order(cart, new Client("Piotr", "Nowak", "010311041"), ZonedDateTime.now()).get();
+        } catch (InterruptedException | ExecutionException e) {
+            throw new RuntimeException(e);
+        }
         System.out.println(order);
         String string = repository.findAll().toString();
         System.out.println("Warehouse after ordering: " + "\n" + string + "\n");
     }
 
     private static void printAllOrdersTest(OrderRepository orderRepository) {
-        System.out.println("Test 10: Orders printing");
+        System.out.println("Test 9: Orders printing");
         List<Order> allOrders = orderRepository.findAll();
         System.out.println(allOrders);
     }

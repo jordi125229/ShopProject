@@ -4,10 +4,11 @@ import client.Client;
 import money.Money;
 
 import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 
 public class Invoice {
     private String invoiceNumber;
-    private LocalDateTime issueDate;
+    private ZonedDateTime issueDate;
     private Client client;
     private Money total;
     private String itemDescription;
@@ -16,7 +17,7 @@ public class Invoice {
         return invoiceNumber;
     }
 
-    public LocalDateTime getIssueDate() {
+    public ZonedDateTime getIssueDate() {
         return issueDate;
     }
 
@@ -36,7 +37,7 @@ public class Invoice {
         this.invoiceNumber = invoiceNumber;
     }
 
-    public void setIssueDate(LocalDateTime issueDate) {
+    public void setIssueDate(ZonedDateTime issueDate) {
         this.issueDate = issueDate;
     }
 

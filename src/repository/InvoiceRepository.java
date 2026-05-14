@@ -1,7 +1,5 @@
 package repository;
 
-import file.FileReader;
-import file.FileWriter;
 import payment.Invoice;
 
 import java.util.ArrayList;

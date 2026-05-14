@@ -2,7 +2,7 @@ package manager;
 
 import client.Client;
 import order.Order;
-import product.productToCart.ProductToCart;
+import product.ProductToCart;
 import repository.Cart;
 import repository.OrderRepository;
 import threadsExecutor.Executor;
@@ -15,9 +15,9 @@ import java.util.Random;
 import java.util.concurrent.Future;
 
 public class OrderManager {
-    private OrderRepository orderRepository;
-    private CartManager cartManager;
-    private Executor orderExecutor;
+    private final OrderRepository orderRepository;
+    private final CartManager cartManager;
+    private final Executor orderExecutor;
 
     public OrderManager(OrderRepository orderRepository, CartManager cartManager, Executor orderExecutor) {
         this.orderRepository = orderRepository;
@@ -32,7 +32,7 @@ public class OrderManager {
         order.setId("BK-<" + date + counterCreation() + ">");
         order.setTotalPrice(cartManager.calculateTotalPrice());
         return orderExecutor.getExecutorService().submit(() -> {
-            orderExecutor.orderProcessing(order);
+            orderExecutor.processOrder(order);
             orderRepository.addOrder(order);
             return order;
         });
