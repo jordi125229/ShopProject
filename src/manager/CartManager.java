@@ -3,14 +3,13 @@ package manager;
 import exceptions.NoProductException;
 import money.Money;
 import product.Product;
-import product.productToCart.ProductToCart;
+import product.ProductToCart;
 import repository.Cart;
 import repository.ProductRepository;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.Collection;
-import java.util.List;
 
 public class CartManager {
     private final Cart cartRepository;
