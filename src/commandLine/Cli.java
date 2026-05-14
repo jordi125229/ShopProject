@@ -1,6 +1,7 @@
 package commandLine;
 
 import client.Client;
+import dataValidation.Validator;
 import exceptions.*;
 import file.FileReader;
 import file.FileWriter;
@@ -38,6 +39,7 @@ public class Cli {
     private final FileReader fileReader;
     private final FileWriter fileWriter;
     private final Executor orderExecutor;
+    private final Validator validator;
 
     public Cli() {
         this.dataReader = new DataReader();
@@ -53,6 +55,7 @@ public class Cli {
         this.productManager = new ProductManager(productRepository);
         this.fileReader = new FileReader();
         this.fileWriter = new FileWriter();
+        this.validator = new Validator();
     }
 
     public void controlLoop() {
@@ -97,7 +100,7 @@ public class Cli {
             int quantity = getProductQuantity();
             productManager.createSmartphone(id, name, Money.of(price), quantity);
             consolePrinter.printLine("Smartphone created!");
-        } catch (NegativeQuantityException | MoneyCantBeNegative e) {
+        } catch (NegativeQuantityException | MoneyCantBeNegative | NoAvailableId e) {
             consolePrinter.printLine(e.getMessage() + " Please try again!");
         }
     }
@@ -110,7 +113,7 @@ public class Cli {
             int quantity = getProductQuantity();
             productManager.createComputer(id, name, Money.of(price), quantity);
             consolePrinter.printLine("Computer created!");
-        } catch (NegativeQuantityException | MoneyCantBeNegative e) {
+        } catch (NegativeQuantityException | MoneyCantBeNegative | NoAvailableId e) {
             consolePrinter.printLine(e.getMessage() + " Please try again!");
         }
     }
@@ -151,7 +154,7 @@ public class Cli {
             int quantity = getProductQuantity();
             productManager.createElectronic(id, name, Money.of(price), quantity);
             consolePrinter.printLine("Electronic device created!");
-        } catch (NegativeQuantityException | MoneyCantBeNegative e) {
+        } catch (NegativeQuantityException | MoneyCantBeNegative | NoAvailableId e) {
             consolePrinter.printLine(e.getMessage() + " Please try again!");
         }
     }
@@ -241,13 +244,23 @@ public class Cli {
     }
 
     private Client getClientByProvidingData() {
-        consolePrinter.printLine("Insert client's name: ");
-        String clientName = dataReader.getString();
-        consolePrinter.printLine("Insert client's lastname: ");
-        String lastName = dataReader.getString();
+        String clientName = getValidatedName("Insert client's name: ");
+        String lastName = getValidatedName("Insert client's lastname: ");
         consolePrinter.printLine("Insert client's id: ");
         String id = dataReader.getString();
         return new Client(clientName, lastName, id);
+    }
+
+    private String getValidatedName(String prompt) {
+        String name;
+        while (true) {
+            consolePrinter.printLine(prompt);
+            name = dataReader.getString();
+            if (validator.ifNameIsValid(name)) {
+                return validator.firstLetterUpperCase(name);
+            }
+            consolePrinter.printLine("Invalid input! Try again.");
+        }
     }
 
     private void createInvoice() {

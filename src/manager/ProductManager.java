@@ -1,14 +1,17 @@
 package manager;
 
-import exceptions.NegativeQuantityException;
+import exceptions.NoAvailableId;
 import exceptions.NoProductException;
 import lombok.AllArgsConstructor;
 import money.Money;
+import org.apache.commons.lang3.Validate;
 import product.Computer;
 import product.Electronics;
 import product.Product;
 import product.Smartphone;
 import repository.ProductRepository;
+
+import java.util.Optional;
 
 @AllArgsConstructor
 public class ProductManager {
@@ -16,6 +19,7 @@ public class ProductManager {
 
     public Computer createComputer(String id, String name, Money price, int quantity) {
         quantityValidation(quantity);
+        idValidation(id, productRepository);
         Computer computer = Computer.builder()
                 .id(id)
                 .name(name)
@@ -28,6 +32,7 @@ public class ProductManager {
 
     public Smartphone createSmartphone(String id, String name, Money price, int quantity) {
         quantityValidation(quantity);
+        idValidation(id, productRepository);
         Smartphone smartphone = Smartphone.builder()
                 .id(id)
                 .name(name)
@@ -39,6 +44,7 @@ public class ProductManager {
 
     public Electronics createElectronic(String id, String name, Money price, int quantity) {
         quantityValidation(quantity);
+        idValidation(id, productRepository);
         Electronics electronics = Electronics.builder()
                 .id(id)
                 .name(name)
@@ -49,8 +55,14 @@ public class ProductManager {
     }
 
     private static void quantityValidation(int quantity) {
-        if (quantity < 0) {
-            throw new NegativeQuantityException("Quantity can't be negative!");
+        Validate.isTrue(quantity >= 0, "Quantity can't be negative!");
+    }
+
+    private static void idValidation(String id, ProductRepository productRepository) {
+        Validate.isTrue(!id.isEmpty(), "ID can't be empty!");
+        Optional<Product> productById = productRepository.findProductById(id);
+        if (productById.isPresent()) {
+            throw new NoAvailableId("Id is in used!");
         }
     }
 

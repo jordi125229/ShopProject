@@ -6,7 +6,7 @@ import product.ProductToCart;
 import java.util.*;
 
 public class Cart implements ICart {
-    private Map<String, ProductToCart> productsBucket;
+    private final Map<String, ProductToCart> productsBucket;
 
     public Cart() {
         this.productsBucket = new HashMap<>();

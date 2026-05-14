@@ -12,9 +12,9 @@ import java.nio.file.Paths;
 import java.util.List;
 
 public class FileReader {
-    private static final Path FILE_PATH_ORDERS = Paths.get("orders.txt");
-    private static final Path FILE_PATH_INVOICES = Paths.get("invoices.txt");
-    private static final Path FILE_PATH_PRODUCTS = Paths.get("products.txt");
+    private static final Path FILE_PATH_ORDERS = Paths.get("src/dataBase/orders.txt");
+    private static final Path FILE_PATH_INVOICES = Paths.get("src/dataBase/invoices.txt");
+    private static final Path FILE_PATH_PRODUCTS = Paths.get("src/dataBase/products.txt");
 
     public void printOrdersFromFile() {
         try {

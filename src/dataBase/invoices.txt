@@ -52,3 +52,9 @@ Client: Piotr
 Total: Price 6.630PLN
 Date: 2026-04-22T08:57:03.009264800+02:00[Europe/Warsaw]
 Description: [ProductToCart(product=Smartphone(super=Product(id=0030, name=Iphone 15, price=Price 3.315PLN, quantity=1), color=null, batteryCapacity=0, additionalAccessory=null), quantity=2)]
+=== INVOICE ===
+Number: INV-<2026-04-24>-<2491>
+Client: Monika
+Total: Price 2.000PLN
+Date: 2026-04-24T12:14:15.069391400+02:00[Europe/Warsaw]
+Description: [ProductToCart(product=Electronics(super=Product(id=4430, name=Headphones airpods, price=Price 2.000PLN, quantity=7)), quantity=1)]
