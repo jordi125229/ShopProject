@@ -20,13 +20,13 @@ public class ProductManager {
         product.setQuantity(quantity);
     }
 
-    public Computer computerCreator(String id, String name, Money price, int quantity) {
+    public Computer createComputer(String id, String name, Money price, int quantity) {
         Computer computer = new Computer(id, name, price, quantity);
         productRepository.add(computer);
         return computer;
     }
 
-    public Smartfon smartfonCreator(String id, String name, Money price, int quantity) {
+    public Smartfon createSmartfon(String id, String name, Money price, int quantity) {
         Smartfon smartfon = new Smartfon(id, name, price, quantity);
         productRepository.add(smartfon);
         return smartfon;

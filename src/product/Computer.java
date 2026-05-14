@@ -18,8 +18,8 @@ public class Computer extends Product {
 
     @Override
     public String toString() {
-        return "Computer{" + super.toString() +
-                "processor='" + processor + '\'' +
-                ", ram=" + ram;
+        return "Computer - " + super.toString() +
+                "processor:'" + processor + '\'' +
+                ", ram: " + ram + "|";
     }
 }
