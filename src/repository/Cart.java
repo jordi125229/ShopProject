@@ -1,14 +1,12 @@
 package repository;
 
 import exceptions.NoProductException;
-import money.Money;
 import product.Product;
 import product.productToCart.ProductToCart;
 
-import java.math.BigDecimal;
 import java.util.*;
 
-public class Cart implements ICartsRepository {
+public class Cart implements ICart {
     private Map<String, ProductToCart> productsBucket;
 
     public Cart() {

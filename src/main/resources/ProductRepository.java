@@ -1,8 +1,13 @@
 package repository;
 
 import exceptions.NoProductException;
+import file.FileReader;
+import file.FileWriter;
+import money.Money;
 import product.Product;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
 
 public class ProductRepository implements IProductsRepository {
@@ -24,7 +29,7 @@ public class ProductRepository implements IProductsRepository {
 
     @Override
     public Map<String, Product> findAll() {
-        if (products.isEmpty()){
+        if (products.isEmpty()) {
             throw new NoProductException("No products");
         }
         return products;

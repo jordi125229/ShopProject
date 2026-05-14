@@ -12,7 +12,8 @@ public enum Option {
     ADD_ORDER(9, "Create order"),
     CREATE_INVOICE(10, "Invoice issuing"),
     PRINT_INVOICES(11, "View all invoices"),
-    EXIT(12, "Closing app");
+    PRINT_ORDERS(12, "View all orders"),
+    EXIT(13, "Closing app");
 
     private final int optionNumber;
     private final String description;

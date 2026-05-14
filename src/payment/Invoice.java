@@ -12,6 +12,26 @@ public class Invoice {
     private Money total;
     private String itemDescription;
 
+    public String getInvoiceNumber() {
+        return invoiceNumber;
+    }
+
+    public LocalDateTime getIssueDate() {
+        return issueDate;
+    }
+
+    public Client getClient() {
+        return client;
+    }
+
+    public Money getTotal() {
+        return total;
+    }
+
+    public String getItemDescription() {
+        return itemDescription;
+    }
+
     public void setInvoiceNumber(String invoiceNumber) {
         this.invoiceNumber = invoiceNumber;
     }
@@ -39,6 +59,6 @@ public class Invoice {
                 ", issueDate=" + issueDate +
                 ", client=" + client +
                 ", total=" + total +
-                ", itemDescription='" + itemDescription;
+                ", itemDescription='" + itemDescription + "}";
     }
 }

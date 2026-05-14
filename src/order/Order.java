@@ -7,6 +7,7 @@ import product.productToCart.ProductToCart;
 import repository.Cart;
 
 import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,14 +15,14 @@ public class Order {
     private Client client;
     private List<ProductToCart> products;
     private Money totalPrice;
-    private LocalDateTime date;
+    private ZonedDateTime date;
     private String id;
 
-    public LocalDateTime getDate() {
+    public ZonedDateTime getDate() {
         return date;
     }
 
-    public Order(Client client, List<ProductToCart> products, LocalDateTime date) {
+    public Order(Client client, List<ProductToCart> products, ZonedDateTime date) {
         this.client = client;
         this.products = products;
         this.date = date;
@@ -60,5 +61,12 @@ public class Order {
                 ", date=" + date +
                 ", id='" + id + '\'' +
                 '}';
+    }
+
+    public String serialize() {
+        return products.stream()
+                .map(p -> p.getProduct().getName() + "," + p.getProduct().getPrice() + "," + p.getQuantity())
+                .reduce((a, b) -> a + b)
+                .orElse("");
     }
 }

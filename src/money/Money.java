@@ -1,5 +1,7 @@
 package money;
 
+import exceptions.MoneyCantBeNegative;
+
 import java.math.BigDecimal;
 
 public class Money {
@@ -7,6 +9,9 @@ public class Money {
     private final String currency = "PLN";
 
     public Money(BigDecimal amount) {
+        if (amount.compareTo(BigDecimal.ZERO) < 0) {
+            throw new MoneyCantBeNegative("Amount cannot be negative");
+        }
         this.amount = amount;
     }
 
@@ -14,7 +19,7 @@ public class Money {
         return new Money(new BigDecimal(amount));
     }
 
-    public Money add(Money other){
+    public Money add(Money other) {
         return new Money(this.amount.add(other.amount));
     }
 

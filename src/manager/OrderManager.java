@@ -1,13 +1,14 @@
 package manager;
 
 import client.Client;
+import exceptions.NoProductInTheCart;
 import order.Order;
 import product.Product;
 import product.productToCart.ProductToCart;
 import repository.Cart;
 import repository.OrderRepository;
 
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +23,7 @@ public class OrderManager {
         this.cartManager = cartManager;
     }
 
-    public Order order(Cart cart, Client client, LocalDateTime start) {
+    public Order order(Cart cart, Client client, ZonedDateTime start) {
         String date = start.format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
         List<ProductToCart> productsCopy = new ArrayList<>(cart.findAll());
         Order order = new Order(client, productsCopy, start);

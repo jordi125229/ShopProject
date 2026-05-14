@@ -13,6 +13,7 @@ import repository.OrderRepository;
 import repository.ProductRepository;
 
 import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.List;
 
 public class UnitTest {
@@ -94,7 +95,7 @@ public class UnitTest {
         System.out.println("Test 9: Ordering");
         cartManager.addProductToCart("005", 2);
         cartManager.addProductToCart("014", 5);
-        Order order = orderManager.order(cart, new Client("Piotr", "Nowak", "010311041"), LocalDateTime.now());
+        Order order = orderManager.order(cart, new Client("Piotr", "Nowak", "010311041"), ZonedDateTime.now());
         System.out.println(order);
         String string = repository.findAll().toString();
         System.out.println("Warehouse after ordering: " + "\n" + string + "\n");

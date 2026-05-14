@@ -1,8 +1,9 @@
 package commandLine;
 
 import client.Client;
-import exceptions.NegativeQuantityException;
-import exceptions.NoProductException;
+import exceptions.*;
+import file.FileReader;
+import file.FileWriter;
 import manager.CartManager;
 import manager.InvoiceManager;
 import manager.OrderManager;
@@ -20,6 +21,7 @@ import repository.OrderRepository;
 import repository.ProductRepository;
 
 import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.*;
 
 public class Cli {
@@ -33,6 +35,8 @@ public class Cli {
     private InvoiceManager invoiceManager;
     private InvoiceRepository invoiceRepository;
     private ProductManager productManager;
+    private FileReader fileReader;
+    private FileWriter fileWriter;
 
     public Cli() {
         this.dataReader = new DataReader();
@@ -45,6 +49,8 @@ public class Cli {
         this.invoiceManager = new InvoiceManager();
         this.invoiceRepository = new InvoiceRepository();
         this.productManager = new ProductManager(productRepository);
+        this.fileReader = new FileReader();
+        this.fileWriter = new FileWriter();
     }
 
     public void controlLoop() {
@@ -66,6 +72,7 @@ public class Cli {
                     case ADD_ORDER -> addOrder();
                     case CREATE_INVOICE -> createInvoice();
                     case PRINT_INVOICES -> invoicePrinter();
+                    case PRINT_ORDERS -> ordersPrinter();
                 }
             } catch (IllegalArgumentException e) {
                 consolePrinter.printLine(e.getMessage());
@@ -88,7 +95,7 @@ public class Cli {
             int quantity = dataReader.getAndReturnInt();
             productManager.createSmartphone(id, name, Money.of(price), quantity);
             consolePrinter.printLine("Smartphone created!");
-        } catch (NegativeQuantityException e) {
+        } catch (NegativeQuantityException | MoneyCantBeNegative e) {
             System.out.println(e.getMessage() + " Please try again!");
         }
     }
@@ -105,7 +112,7 @@ public class Cli {
             int quantity = dataReader.getAndReturnInt();
             productManager.createComputer(id, name, Money.of(price), quantity);
             consolePrinter.printLine("Computer created!");
-        } catch (NegativeQuantityException e) {
+        } catch (NegativeQuantityException | MoneyCantBeNegative e) {
             System.out.println(e.getMessage() + " Please try again!");
         }
     }
@@ -122,7 +129,7 @@ public class Cli {
             int quantity = dataReader.getAndReturnInt();
             productManager.createElectronic(id, name, Money.of(price), quantity);
             consolePrinter.printLine("Electronic device created!");
-        } catch (NegativeQuantityException e) {
+        } catch (NegativeQuantityException | MoneyCantBeNegative e) {
             System.out.println(e.getMessage() + " Please try again!");
         }
     }
@@ -183,17 +190,23 @@ public class Cli {
     }
 
     public void cartPrinter() {
-        cartManager.printCarts();
+        consolePrinter.printCarts(cart.findAll());
     }
 
     public void productsPrinter() {
         consolePrinter.printProducts(productRepository.findAll());
     }
 
+    public void ordersPrinter() {
+        fileReader.printOrdersFromFile();
+        consolePrinter.printOrders(orderRepository.findAll());
+    }
+
     public void addOrder() {
         Client client = getClientByProvidingData();
-        Order order = orderManager.order(cart, client, LocalDateTime.now());
+        Order order = orderManager.order(cart, client, ZonedDateTime.now());
         consolePrinter.printLine("Order created: " + order);
+        fileWriter.saveOrderToFile(order);
         cart.clearing();
     }
 
@@ -209,13 +222,18 @@ public class Cli {
     }
 
     public Invoice createInvoice() {
-        consolePrinter.printLine("Insert order's id to create invoice: ");
-        String orderId = dataReader.getString();
-        Order orderById = orderRepository.findOrderById(orderId);
-        Invoice invoice = invoiceManager.toInvoice(orderById);
-        System.out.println(invoice);
-        invoiceRepository.addInvoice(invoice);
-        return invoice;
+        try {
+            consolePrinter.printLine("Insert order's id to create invoice: ");
+            String orderId = dataReader.getString();
+            Order orderById = orderRepository.findOrderById(orderId);
+            Invoice invoice = invoiceManager.toInvoice(orderById);
+            invoiceRepository.addInvoice(invoice);
+            System.out.println("Invoice created: " + invoice);
+            return invoice;
+        } catch (NoOrderException e) {
+            System.out.println(e.getMessage());
+        }
+        return null;
     }
 
     public void invoicePrinter() {
