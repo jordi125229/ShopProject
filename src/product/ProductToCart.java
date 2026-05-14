@@ -1,6 +1,4 @@
-package product.productToCart;
-
-import product.Product;
+package product;
 
 public class ProductToCart {
     private Product product;

@@ -1,10 +1,8 @@
 package manager;
 
 import client.Client;
-import exceptions.NoProductInTheCart;
 import order.Order;
-import product.Product;
-import product.productToCart.ProductToCart;
+import product.ProductToCart;
 import repository.Cart;
 import repository.OrderRepository;
 

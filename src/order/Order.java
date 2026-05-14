@@ -2,13 +2,9 @@ package order;
 
 import client.Client;
 import money.Money;
-import product.Product;
-import product.productToCart.ProductToCart;
-import repository.Cart;
+import product.ProductToCart;
 
-import java.time.LocalDateTime;
 import java.time.ZonedDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 public class Order {
