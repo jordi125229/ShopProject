@@ -10,15 +10,15 @@ public class Order {
     private Client client;
     private Cart cart;
     private Money totalPrice;
-    private LocalDateTime start;
+    private LocalDateTime date;
     private String id;
 
-    public LocalDateTime getStart() {
-        return start;
+    public LocalDateTime getDate() {
+        return date;
     }
 
-    public void setStart(LocalDateTime start) {
-        this.start = start;
+    public void setDate(LocalDateTime date) {
+        this.date = date;
     }
 
     public String getId() {
@@ -58,8 +58,7 @@ public class Order {
         return "Order: " + "client: " + client +
                 ", " + cart +
                 ", totalPrice " + totalPrice +
-                ", start " + start +
-                ", end " +
+                ", order's date " + date +
                 ", id " + id + '\'' +
                 '}';
     }
