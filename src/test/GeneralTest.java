@@ -17,9 +17,8 @@ import repository.ProductRepository;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
-public class Test2 {
+public class GeneralTest {
     public static void main(String[] args) {
         ProductRepository repository = new ProductRepository();
         ProductManager productManager = new ProductManager(repository);
@@ -27,7 +26,7 @@ public class Test2 {
         CartManager cartManager = new CartManager(cart, repository);
         InvoiceManager invoiceManager = new InvoiceManager();
         OrderRepository orderRepository = new OrderRepository();
-        OrderManager orderManager = new OrderManager(orderRepository);
+        OrderManager orderManager = new OrderManager(orderRepository, cartManager);
         Computer lenovo = createAndConfigureComputer(productManager);
         createSmartfon(productManager, lenovo);
         Map<String, Product> all = getAndPrintAllProductFromMagazine(repository);
@@ -60,7 +59,7 @@ public class Test2 {
     }
 
     private static void createSmartfon(ProductManager productManager, Computer lenovo) {
-        productManager.createSmartfon("111231", "Iphone", Money.of("4900"), 3);
+        productManager.createSmartphone("111231", "Iphone", Money.of("4900"), 3);
         System.out.println(lenovo);
     }
 

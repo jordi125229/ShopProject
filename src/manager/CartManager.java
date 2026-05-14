@@ -1,17 +1,28 @@
 package manager;
 
 import exceptions.NoProductException;
+import money.Money;
 import product.Product;
+import product.productToCart.ProductToCart;
 import repository.Cart;
 import repository.ProductRepository;
 
+import java.math.BigDecimal;
+import java.util.Collection;
+import java.util.List;
+
 public class CartManager {
-    Cart cartRepository;
-    ProductRepository productRepository;
+    private Cart cartRepository;
+    private ProductRepository productRepository;
 
     public CartManager(Cart cartRepository, ProductRepository productRepository) {
         this.cartRepository = cartRepository;
         this.productRepository = productRepository;
+    }
+
+    public void printCarts() {
+        Collection<ProductToCart> all = cartRepository.findAll();
+        System.out.println(all);
     }
 
     public void addProductToCart(String id, int quantity) {
@@ -20,7 +31,19 @@ public class CartManager {
             throw new NoProductException("No enough product in the warehouse!");
         }
         product.setQuantity(product.getQuantity() - quantity);
-        Product productToCart = new Product(product.getId(), product.getName(), product.getPrice(), quantity);
-        cartRepository.addProduct(productToCart);
+        cartRepository.addProduct(product, quantity);
+    }
+
+    public Money calculateTotalPrice() {
+        Money sum = new Money(BigDecimal.ZERO);
+        try {
+            Collection<ProductToCart> items = cartRepository.findAll();
+            for (ProductToCart item : items) {
+                sum = sum.add(item.getProduct().getPrice().multiply(item.getQuantity()));
+            }
+        } catch (NoProductException e) {
+            return new Money(BigDecimal.ZERO);
+        }
+        return sum;
     }
 }

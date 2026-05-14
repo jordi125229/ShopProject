@@ -2,7 +2,7 @@ package product;
 
 import money.Money;
 
-public class Product {
+public abstract class Product {
     private String id;
     private String name;
     private Money price;
@@ -13,10 +13,6 @@ public class Product {
         this.name = name;
         this.price = price;
         this.quantity = quantity;
-    }
-
-    public String getName() {
-        return name;
     }
 
     public int getQuantity() {
@@ -31,19 +27,10 @@ public class Product {
         return id;
     }
 
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setPrice(Money price) {
-        this.price = price;
-    }
-
     public void setQuantity(int quantity) {
+        if (quantity < 0){
+            throw new IllegalArgumentException("Quantity can't be less than 0!");
+        }
         this.quantity = quantity;
     }
 

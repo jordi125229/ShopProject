@@ -3,32 +3,29 @@ package repository;
 import exceptions.NoProductException;
 import money.Money;
 import product.Product;
+import product.productToCart.ProductToCart;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
-public class Cart implements CartsReposit {
-    private List<Product> productsBucket;
+public class Cart implements ICartsRepository {
+    private Map<String, ProductToCart> productsBucket;
 
     public Cart() {
-        this.productsBucket = new ArrayList<>();
+        this.productsBucket = new HashMap<>();
     }
 
     @Override
-    public void addProduct(Product product) {
-        if (product.getQuantity() <= 0){
-            throw new NoProductException("No products available!");
-        }
-        productsBucket.add(product);
+    public void addProduct(Product product, int quantity) {
+        productsBucket.put(product.getId(), new ProductToCart(product, quantity));
     }
 
     @Override
-    public List<Product> findAll() {
+    public Collection<ProductToCart> findAll() {
         if (productsBucket.isEmpty()) {
-            System.out.println("No products in the bucket!");
+            throw new NoProductException("Cart is empty!");
         }
-        return productsBucket;
+        return productsBucket.values();
     }
 
     @Override
@@ -37,17 +34,8 @@ public class Cart implements CartsReposit {
     }
 
     @Override
-    public Money calculateTotalPrice() {
-        Money sum = new Money(BigDecimal.ZERO);
-        for (Product product : productsBucket) {
-            sum = sum.add(product.getPrice().multiply(product.getQuantity()));
-        }
-        return sum;
-    }
-
-    @Override
     public String toString() {
-        return "Cart{" +
+        return "Cart: " +
                 "productsBucket=" + productsBucket;
     }
 }

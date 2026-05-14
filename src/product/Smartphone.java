@@ -4,16 +4,16 @@ import money.Money;
 
 import java.util.Set;
 
-public class Smartfon extends Product {
+public class Smartphone extends Product {
     private String color;
     private int batteryCapacity;
     private Set<String> additionalAccessory;
 
-    public Smartfon(String id, String name, Money price, int quantity) {
+    public Smartphone(String id, String name, Money price, int quantity) {
         super(id, name, price, quantity);
     }
 
-    public Smartfon configuration(String color, int batteryCapacity, Set<String> additionalAccessory) {
+    public Smartphone configuration(String color, int batteryCapacity, Set<String> additionalAccessory) {
         this.color = color;
         this.batteryCapacity = batteryCapacity;
         this.additionalAccessory = additionalAccessory;
